@@ -1,54 +1,98 @@
 <section class="hero-section">
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <img src="assets/images/logo.jpeg" alt="MaxisTravel Logo" class="hero-logo fade-in-up">
-    <h1 class="fade-in-up" style="animation-delay: 0.2s">{{ 'hero.title' | translate }}</h1>
-    <p class="subtitle fade-in-up" style="animation-delay: 0.4s">{{ 'hero.subtitle' | translate }}</p>
-    <div class="hero-actions fade-in-up" style="animation-delay: 0.6s">
-      <a routerLink="/tours" class="btn btn-primary">{{ 'hero.cta_tours' | translate }}</a>
-      <a href="https://wa.me/51920698122" target="_blank" class="btn btn-whatsapp">{{ 'hero.cta_whatsapp' | translate }}</a>
+    <div class="hero-badge fade-in-up">
+      <span>🏔️ EXPERIENCIAS EXCLUSIVAS EN CUSCO</span>
+    </div>
+    
+    <h1 class="fade-in-up" style="animation-delay: 0.15s">
+      Descubre la Magia del <span class="gold-highlight">Imperio Inca</span>
+    </h1>
+    
+    <p class="subtitle fade-in-up" style="animation-delay: 0.3s">
+      Conecta con la historia, cultura y naturaleza andina de la mano de guías expertos locales.
+    </p>
+
+    <div class="hero-actions fade-in-up" style="animation-delay: 0.45s">
+      <a routerLink="/tours" class="btn btn-primary btn-hero">
+        Explorar Tours ➔
+      </a>
+      <a href="https://wa.me/51920698122" target="_blank" class="btn btn-whatsapp btn-hero">
+        💬 Hablar con un Asesor
+      </a>
+    </div>
+
+    <div class="hero-stats fade-in-up" style="animation-delay: 0.6s">
+      <div class="stat-item">
+        <span class="stat-num">10+</span>
+        <span class="stat-label">Años de Experiencia</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-num">10,000+</span>
+        <span class="stat-label">Viajeros Felices</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-num">4.9 ★</span>
+        <span class="stat-label">Calificación Excelente</span>
+      </div>
     </div>
   </div>
-  <div class="scroll-indicator">↓</div>
+
+  <div class="scroll-indicator">
+    <span>Descubre más</span>
+    <div class="scroll-arrow">↓</div>
+  </div>
 </section>
 
 <div class="andean-divider"></div>
 
 <section class="tours-section section-padding">
   <div class="container">
-    <h2 class="section-title text-center">{{ 'tours.title' | translate }}</h2>
+    <div class="section-header text-center">
+      <span class="section-badge">NUESTROS TOURS</span>
+      <h2 class="section-title">Experiencias Destacadas en Cusco</h2>
+      <p class="section-subtitle">Elige el itinerario perfecto para tu próxima gran aventura</p>
+    </div>
+
     <div class="tours-grid">
       <app-tour-card *ngFor="let tour of tours" [tour]="tour"></app-tour-card>
     </div>
-    <div class="text-center mt-lg">
-      <a routerLink="/tours" class="link-view-all">Ver todos los tours →</a>
+
+    <div class="text-center mt-xl">
+      <a routerLink="/tours" class="btn btn-outline">Ver Todos los Tours ➔</a>
     </div>
   </div>
 </section>
 
 <section class="why-us-section section-padding bg-light">
   <div class="container">
-    <h2 class="section-title text-center">¿Por qué elegir MaxisTravel?</h2>
+    <div class="section-header text-center">
+      <span class="section-badge">¿POR QUÉ ELEGIRNOS?</span>
+      <h2 class="section-title">La Garantía MaxisTravel</h2>
+    </div>
+
     <div class="features-grid">
       <div class="feature-card inca-border fade-in-up">
-        <div class="icon">🏔️</div>
+        <div class="icon-wrapper">🏔️</div>
         <h3>Experiencia Local</h3>
-        <p>10+ años conociendo cada rincón de Cusco</p>
+        <p>Conocimiento profundo de las rutas, tradiciones e historia ancestral del Cusco.</p>
       </div>
-      <div class="feature-card inca-border fade-in-up" style="animation-delay: 0.2s">
-        <div class="icon">👨‍🏫</div>
+      <div class="feature-card inca-border fade-in-up" style="animation-delay: 0.15s">
+        <div class="icon-wrapper">👨‍🏫</div>
         <h3>Guías Profesionales</h3>
-        <p>Bilingüe español/inglés, certificados</p>
+        <p>Guías bilingües oficiales de turismo apasionados por compartir el legado inca.</p>
       </div>
-      <div class="feature-card inca-border fade-in-up" style="animation-delay: 0.4s">
-        <div class="icon">💰</div>
-        <h3>Mejores Precios</h3>
-        <p>Precios directos sin intermediarios</p>
+      <div class="feature-card inca-border fade-in-up" style="animation-delay: 0.3s">
+        <div class="icon-wrapper">💰</div>
+        <h3>Precios Directos</h3>
+        <p>Sin intermediarios ni tarifas ocultas. Máxima transparencia y valor real.</p>
       </div>
-      <div class="feature-card inca-border fade-in-up" style="animation-delay: 0.6s">
-        <div class="icon">🛡️</div>
-        <h3>Seguridad Garantizada</h3>
-        <p>Equipos de emergencia y primeros auxilios</p>
+      <div class="feature-card inca-border fade-in-up" style="animation-delay: 0.45s">
+        <div class="icon-wrapper">🛡️</div>
+        <h3>Seguridad 100%</h3>
+        <p>Transportes turísticos modernos, botiquín de primeros auxilios y asistencia constante.</p>
       </div>
     </div>
   </div>
@@ -56,7 +100,12 @@
 
 <section class="gallery-section section-padding">
   <div class="container">
-    <h2 class="section-title text-center">Galería de Experiencias</h2>
+    <div class="section-header text-center">
+      <span class="section-badge">FOTOGRAFÍAS REALES</span>
+      <h2 class="section-title">Galería de Experiencias</h2>
+      <p class="section-subtitle">Momentos inolvidables junto a nuestros viajeros en Cusco</p>
+    </div>
+
     <div class="masonry-grid">
       <div class="masonry-item" *ngFor="let photo of galleryPhotos">
         <img [src]="photo" alt="Experiencia MaxisTravel" loading="lazy">
@@ -65,9 +114,12 @@
   </div>
 </section>
 
-<section class="cta-section section-padding">
+<section class="cta-banner section-padding">
   <div class="container text-center">
-    <h2>¿Listo para tu aventura?</h2>
-    <a href="https://wa.me/51920698122" target="_blank" class="btn btn-whatsapp pulse-anim mt-md">Reserva ahora por WhatsApp</a>
+    <h2 class="cta-title">¿Listo para vivir la magia del Cusco?</h2>
+    <p class="cta-sub">Escríbenos directamente por WhatsApp y armamos tu itinerario a la medida.</p>
+    <a href="https://wa.me/51920698122" target="_blank" class="btn btn-whatsapp btn-cta-lg pulse-anim">
+      💬 Reserva tu Aventura por WhatsApp
+    </a>
   </div>
 </section>

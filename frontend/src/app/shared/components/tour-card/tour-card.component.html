@@ -1,17 +1,41 @@
-<div class="tour-card fade-in-up">
+<div class="tour-card hover-lift">
   <div class="card-img-wrapper">
-    <img [src]="tour.imageUrl" [alt]="tour.name" class="card-img">
-    <span class="badge difficulty-badge">{{ tour.difficulty }}</span>
+    <img [src]="tour.imageUrl" [alt]="tour.name" class="card-img" loading="lazy">
+    <div class="card-img-overlay"></div>
+    <span class="badge difficulty-badge" [class]="tour.difficulty?.toLowerCase()">
+      {{ tour.difficulty }}
+    </span>
+    <span class="type-badge">{{ tour.type }}</span>
+    <div class="card-price-tag">
+      <span class="price-from">Desde</span>
+      <span class="price-amount">US$ {{ tour.price }}</span>
+    </div>
   </div>
-  <div class="card-content">
+  <div class="card-body">
     <h3 class="card-title">{{ tour.name }}</h3>
     <p class="card-desc">{{ tour.description }}</p>
-    <div class="card-meta">
-      <span>⏱ {{ tour.duration }}</span>
-      <span class="price">${{ tour.price }}</span>
+    
+    <div class="card-meta-list">
+      <div class="meta-item">
+        <span class="meta-icon">⏱️</span>
+        <span>{{ tour.duration }}</span>
+      </div>
+      <div class="meta-item" *ngIf="tour.altitude">
+        <span class="meta-icon">🏔️</span>
+        <span>{{ tour.altitude }}</span>
+      </div>
     </div>
+
     <div class="card-actions">
-      <a [routerLink]="['/tours', tour.slug]" class="btn-primary">{{ 'tour.details' | translate }}</a>
+      <a [routerLink]="['/tours', tour.slug]" class="btn-card-details">
+        Ver Detalles ➔
+      </a>
+      <a [href]="'https://wa.me/51920698122?text=Hola%20MaxisTravel!%20Me%20interesa%20reservar%20el%20tour%20' + tour.name" 
+         target="_blank" 
+         class="btn-card-wa" 
+         title="Reservar por WhatsApp">
+        💬
+      </a>
     </div>
   </div>
 </div>

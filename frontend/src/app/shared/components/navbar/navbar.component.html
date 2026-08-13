@@ -1,8 +1,13 @@
 <nav class="navbar" [class.scrolled]="isScrolled">
   <div class="nav-container">
     <a routerLink="/" class="logo">
-      <img src="assets/images/logo.jpeg" alt="MaxisTravel">
-      <span>MaxisTravel</span>
+      <div class="logo-badge">
+        <img src="assets/images/logo.jpeg" alt="MaxisTravel">
+      </div>
+      <div class="logo-text">
+        <span class="brand-name">MaxisTravel</span>
+        <span class="brand-sub">Transporte & Turismo</span>
+      </div>
     </a>
     
     <div class="nav-links" [class.active]="menuOpen">
@@ -12,16 +17,17 @@
       <a routerLink="/contacto" routerLinkActive="active" (click)="toggleMenu()">{{ 'nav.contact' | translate }}</a>
       
       <div class="nav-actions-mobile">
-        <a href="https://wa.me/51920698122" target="_blank" class="btn-wa-nav">WhatsApp</a>
+        <a href="https://wa.me/51920698122" target="_blank" class="btn-wa-nav">💬 Reservar WhatsApp</a>
       </div>
     </div>
 
     <div class="nav-actions">
-      <!-- Language Selector Placeholder -->
-      <a href="https://wa.me/51920698122" target="_blank" class="btn-wa-nav">WhatsApp</a>
+      <a href="https://wa.me/51920698122" target="_blank" class="btn-wa-nav">
+        <span>💬</span> WhatsApp
+      </a>
     </div>
 
-    <button class="hamburger" (click)="toggleMenu()">
+    <button class="hamburger" (click)="toggleMenu()" [attr.aria-label]="'Menu'">
       <span></span><span></span><span></span>
     </button>
   </div>
