@@ -1,1 +1,17 @@
-<router-outlet></router-outlet>
+<div class="admin-wrapper">
+  <aside class="admin-sidebar">
+    <div class="admin-logo">MaxisTravel Admin</div>
+    <nav class="admin-nav">
+      <a routerLink="/admin/dashboard" routerLinkActive="active">📊 Dashboard</a>
+      <a routerLink="/admin/tours" routerLinkActive="active">🗺️ Tours</a>
+      <a routerLink="/admin/paleta" routerLinkActive="active">🎨 Paleta</a>
+    </nav>
+  </aside>
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <span>Bienvenido, Admin</span>
+      <a routerLink="/" class="btn-logout">Salir al sitio web</a>
+    </header>
+    <div class="admin-content"><router-outlet></router-outlet></div>
+  </div>
+</div>

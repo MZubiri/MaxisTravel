@@ -1,6 +1,7 @@
 {
   "nav": { "home": "Home", "tours": "Tours", "about": "About Us", "contact": "Contact" },
   "hero": { "title": "Discover the Magic of Cusco", "subtitle": "Unique experiences in the capital of the Inca Empire", "cta_tours": "Explore Tours", "cta_whatsapp": "Contact via WhatsApp" },
-  "tours": { "title": "Our Tours" },
-  "tour": { "details": "View Details" }
+  "tours": { "title": "Our Tours", "view_all": "View all tours", "filter_all": "All", "filter_cultural": "Cultural", "filter_adventure": "Adventure", "filter_nature": "Nature", "from": "From", "per_person": "per person", "details": "View details", "book": "Book now" },
+  "tour_detail": { "about": "About this tour", "itinerary": "Itinerary", "includes": "Includes", "not_includes": "Not included", "what_to_bring": "What to bring?", "book_whatsapp": "Book via WhatsApp", "from": "From", "per_person": "per person", "related": "Related tours" },
+  "footer": { "description": "Tourism agency in Cusco, Peru. We offer unique experiences to discover the magic of the Inca Empire.", "links": "Quick links", "contact": "Contact", "rights": "© 2024 MaxisTravel. All rights reserved." }
 }
