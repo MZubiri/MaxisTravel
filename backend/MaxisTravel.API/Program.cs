@@ -13,10 +13,26 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// DbContext configuration (Pomelo MySQL)
+// DbContext configuration (MySQL in Docker/Prod, SQLite fallback for local testing)
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+{
+    if (!string.IsNullOrEmpty(connectionString) && (connectionString.Contains("Server=") || connectionString.Contains("Port=")))
+    {
+        try
+        {
+            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+        }
+        catch
+        {
+            options.UseSqlite("Data Source=maxis_travel_local.db");
+        }
+    }
+    else
+    {
+        options.UseSqlite("Data Source=maxis_travel_local.db");
+    }
+});
 
 // Dependency Injection
 builder.Services.AddScoped<IAuthService, AuthService>();
