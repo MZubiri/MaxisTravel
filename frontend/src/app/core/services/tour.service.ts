@@ -32,7 +32,7 @@ export class TourService {
         id: '2', slug: 'montana-7-colores', name: 'Montaña 7 Colores', price: 40, 
         description: 'Aventura increible en la montaña Vinicunca.',
         fullDescription: 'La Montaña de 7 Colores o Vinicunca es uno de los destinos más espectaculares del Cusco. Un trekking de altura que premia con paisajes surrealistas.',
-        duration: 'Full Day', difficulty: 'Moderada-Exigente', type: 'Aventura', isPublished: true, imageUrl: 'assets/images/tours/rainbow-001.jpg',
+        duration: 'Full Day', difficulty: 'Moderada-Exigente', type: 'Aventura', isPublished: true, imageUrl: 'assets/images/tours/montana-7-colores/rainbow-001.jpg',
         altitude: '5,200 msnm', schedule: '04:00 - 17:00', modality: 'Grupo Compartido',
         itinerary: [
           { time: '04:00', title: 'Recojo', icon: '🚐' },
@@ -52,7 +52,7 @@ export class TourService {
         id: '3', slug: 'laguna-humantay', name: 'Laguna Humantay', price: 40, 
         description: 'Trekking hacia una de las lagunas más hermosas.',
         fullDescription: 'Una joya natural a los pies del nevado Salkantay. Sus aguas turquesas contrastan con la nieve y hacen de este trekking una experiencia inolvidable.',
-        duration: 'Full Day', difficulty: 'Moderada-Exigente', type: 'Naturaleza', isPublished: true, imageUrl: 'assets/images/tours/humantay-001.jpg',
+        duration: 'Full Day', difficulty: 'Moderada-Exigente', type: 'Naturaleza', isPublished: true, imageUrl: 'assets/images/tours/laguna-humantay/humantay-001.jpg',
         altitude: '4,200 msnm', schedule: '04:00 - 15:00', modality: 'Grupo Compartido',
         itinerary: [
           { time: '04:00', title: 'Recojo', icon: '🚐' },
@@ -71,7 +71,7 @@ export class TourService {
         id: '4', slug: 'valle-sagrado', name: 'Valle Sagrado', price: 50, 
         description: 'Conoce los pueblos del Valle Sagrado de los Incas.',
         fullDescription: 'Un recorrido completo por los sitios arqueológicos más imponentes y mercados tradicionales del Valle Sagrado.',
-        duration: '~12h', difficulty: 'Moderada', type: 'Cultural', isPublished: true, imageUrl: 'assets/images/tours/valle-001.jpg',
+        duration: '~12h', difficulty: 'Moderada', type: 'Cultural', isPublished: true, imageUrl: 'assets/images/tours/valle-sagrado/valle-001.jpg',
         altitude: '2,900 msnm', schedule: '06:30 - 18:00', modality: 'Grupo Compartido',
         itinerary: [
           { time: '06:30', title: 'Recojo', icon: '🚐' },

@@ -1,0 +1,54 @@
+/* ===================================================
+   MaxisTravel Cusco - Andean / Inca Theme Elements
+   =================================================== */
+
+.andean-divider {
+  height: 12px;
+  width: 100%;
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--color-primary) 0,
+    var(--color-primary) 10px,
+    var(--color-accent) 10px,
+    var(--color-accent) 20px,
+    var(--color-secondary) 20px,
+    var(--color-secondary) 30px
+  );
+  opacity: 0.85;
+}
+
+.inca-border {
+  border: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.inca-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-secondary));
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, var(--color-accent) 0%, #F5D77F 50%, var(--color-primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gold-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, rgba(214, 170, 92, 0.15), rgba(201, 127, 108, 0.15));
+  border: 1px solid var(--color-accent);
+  color: var(--color-dark);
+  padding: 4px 12px;
+  border-radius: var(--border-radius-full);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
