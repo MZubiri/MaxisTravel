@@ -131,7 +131,7 @@
 .btn-wa-nav {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   background: #25D366;
   color: #ffffff !important;
   padding: 9px 20px;
@@ -141,6 +141,12 @@
   font-size: 0.9rem;
   box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
   transition: all 0.3s ease;
+}
+
+.wa-svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
 }
 
 .btn-wa-nav:hover {

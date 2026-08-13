@@ -3,9 +3,40 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-whatsapp-button',
   standalone: true,
-  template: `<a href="https://wa.me/51920698122" target="_blank" class="wa-float pulse-anim" title="¡Escríbenos!">
-    <svg viewBox="0 0 32 32" width="32" height="32" fill="white"><path d="M16 2a13 13 0 0 0-11 20l-2 6 6-2a13 13 0 1 0 7-24zm0 24a11 11 0 0 1-5.6-1.5l-.4-.2-4.1 1.4 1.1-4-.3-.5A11 11 0 1 1 16 26zm6-8c-.3-.2-2-.9-2.3-1-.3-.2-.5-.3-.7.1s-.8 1-.1 1.3c.7.3 3.9 1.6 4.3 2s-.2 1.4-1.3 1.4c-1 0-3.3-1.2-4.7-2.6-1.4-1.4-2.4-3.5-2.2-4.6.2-1 .6-1.5 1-2 .3-.4.7-.4.9 0 .2.4.7 1.8.8 2.2.2.4 0 .9-.2 1.2l-.6.7c-.2.2-.4.4-.2.8.3.5 1.2 2 2.1 2.8 1 1 2.4 1.4 2.8 1.6.5.2.7.2 1 0 .2-.3 1-1 1.3-1.3.2-.4.2-.7 0-.9z"/></svg>
-  </a>`,
-  styles: [`.wa-float{position:fixed;bottom:40px;right:40px;background-color:#25d366;color:#FFF;border-radius:50px;text-align:center;font-size:30px;box-shadow: 2px 2px 3px #999;z-index:100;display:flex;align-items:center;justify-content:center;width:60px;height:60px;text-decoration:none;transition:all 0.3s;}.wa-float:hover{background-color:#128c7e;transform:scale(1.1);}`]
+  template: `
+    <a href="https://wa.me/51920698122" target="_blank" class="wa-float pulse-anim" title="¡Escríbenos por WhatsApp!">
+      <svg class="wa-float-icon" viewBox="0 0 24 24" fill="white">
+        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-1.157 4.228 4.301-1.127zm10.741-6.177c-.077-.127-.282-.204-.589-.357-.308-.154-1.821-.9-2.103-1.002-.283-.103-.488-.154-.693.154-.205.307-.795 1.002-.975 1.207-.18.205-.359.231-.667.077-.308-.154-1.299-.479-2.476-1.529-.916-.818-1.534-1.828-1.714-2.136-.18-.308-.019-.475.135-.628.138-.138.308-.359.462-.538.154-.179.205-.308.308-.513.103-.205.051-.385-.026-.538-.077-.154-.693-1.667-.949-2.283-.249-.601-.502-.519-.693-.529-.18-.009-.385-.01-.589-.01-.205 0-.538.077-.82.385-.282.308-1.077 1.051-1.077 2.564 0 1.513 1.102 2.974 1.256 3.179.154.205 2.17 3.313 5.258 4.646.734.317 1.307.507 1.754.65.738.235 1.409.202 1.94.123.592-.088 1.821-.744 2.077-1.462.256-.718.256-1.334.179-1.461z"/>
+      </svg>
+    </a>
+  `,
+  styles: [`
+    .wa-float {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: #25d366;
+      color: #FFF;
+      border-radius: 50%;
+      box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .wa-float:hover {
+      background-color: #1DA851;
+      transform: scale(1.1);
+      box-shadow: 0 12px 30px rgba(37, 211, 102, 0.6);
+    }
+    .wa-float-icon {
+      width: 32px;
+      height: 32px;
+    }
+  `]
 })
 export class WhatsappButtonComponent {}
