@@ -1,0 +1,28 @@
+<nav class="navbar" [class.scrolled]="isScrolled">
+  <div class="nav-container">
+    <a routerLink="/" class="logo">
+      <img src="assets/images/logo.jpeg" alt="MaxisTravel">
+      <span>MaxisTravel</span>
+    </a>
+    
+    <div class="nav-links" [class.active]="menuOpen">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="toggleMenu()">{{ 'nav.home' | translate }}</a>
+      <a routerLink="/tours" routerLinkActive="active" (click)="toggleMenu()">{{ 'nav.tours' | translate }}</a>
+      <a routerLink="/nosotros" routerLinkActive="active" (click)="toggleMenu()">{{ 'nav.about' | translate }}</a>
+      <a routerLink="/contacto" routerLinkActive="active" (click)="toggleMenu()">{{ 'nav.contact' | translate }}</a>
+      
+      <div class="nav-actions-mobile">
+        <a href="https://wa.me/51920698122" target="_blank" class="btn-wa-nav">WhatsApp</a>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <!-- Language Selector Placeholder -->
+      <a href="https://wa.me/51920698122" target="_blank" class="btn-wa-nav">WhatsApp</a>
+    </div>
+
+    <button class="hamburger" (click)="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>

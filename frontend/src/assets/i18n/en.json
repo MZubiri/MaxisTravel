@@ -1,0 +1,6 @@
+{
+  "nav": { "home": "Home", "tours": "Tours", "about": "About Us", "contact": "Contact" },
+  "hero": { "title": "Discover the Magic of Cusco", "subtitle": "Unique experiences in the capital of the Inca Empire", "cta_tours": "Explore Tours", "cta_whatsapp": "Contact via WhatsApp" },
+  "tours": { "title": "Our Tours" },
+  "tour": { "details": "View Details" }
+}

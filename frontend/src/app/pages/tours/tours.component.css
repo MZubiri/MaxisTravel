@@ -1,0 +1,7 @@
+.tours-hero { height: 40vh; background: url('../../../assets/images/tours/city-tour/city-tour-005.jpeg') center/cover; position: relative; display: flex; align-items: center; justify-content: center; color: white; text-align: center; }
+.overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 1; }
+.tours-hero h1 { position: relative; z-index: 2; font-size: 3rem; }
+.filter-bar { display: flex; justify-content: center; gap: 15px; margin-bottom: var(--spacing-xl); flex-wrap: wrap; }
+.filter-btn { background: var(--color-light); border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: var(--transition); }
+.filter-btn:hover, .filter-btn.active { background: var(--color-primary); color: white; }
+.tours-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--spacing-lg); }

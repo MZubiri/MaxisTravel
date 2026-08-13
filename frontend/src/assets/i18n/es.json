@@ -1,0 +1,6 @@
+{
+  "nav": { "home": "Inicio", "tours": "Tours", "about": "Nosotros", "contact": "Contacto" },
+  "hero": { "title": "Descubre la Magia del Cusco", "subtitle": "Experiencias únicas en la capital del Imperio Inca", "cta_tours": "Explorar Tours", "cta_whatsapp": "Contactar por WhatsApp" },
+  "tours": { "title": "Nuestros Tours" },
+  "tour": { "details": "Ver detalles" }
+}

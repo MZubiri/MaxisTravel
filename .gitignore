@@ -1,0 +1,53 @@
+# =========================
+# .NET / ASP.NET Core
+# =========================
+backend/**/bin/
+backend/**/obj/
+backend/**/.vs/
+backend/**/*.user
+backend/**/*.suo
+
+# =========================
+# Angular / Node
+# =========================
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.sass-cache/
+frontend/*.tgz
+frontend/.env.local
+
+# =========================
+# IDE
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# =========================
+# Docker
+# =========================
+.env
+
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =========================
+# Uploads (production)
+# =========================
+uploads/
+
+# =========================
+# Original source files (not needed in repo)
+# =========================
+FOTOS/
+PaletaDeColores1.jpeg
+PaletaDeColores2.jpeg
+LOGO.jpeg
+*.txt

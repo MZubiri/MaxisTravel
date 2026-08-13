@@ -1,0 +1,81 @@
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 15px 0;
+  transition: var(--transition);
+  background: transparent;
+}
+.navbar.scrolled {
+  background: white;
+  padding: 10px 0;
+  box-shadow: var(--shadow-md);
+}
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 10px;
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+.navbar.scrolled .logo { color: var(--color-primary); }
+.logo img { height: 40px; border-radius: 5px; }
+
+.nav-links {
+  display: flex;
+  gap: var(--spacing-lg);
+  align-items: center;
+}
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: var(--transition);
+}
+.navbar.scrolled .nav-links a { color: var(--color-dark); }
+.nav-links a:hover, .nav-links a.active { color: var(--color-accent); }
+.navbar.scrolled .nav-links a:hover, .navbar.scrolled .nav-links a.active { color: var(--color-primary); }
+
+.nav-actions { display: flex; align-items: center; gap: 15px; }
+.btn-wa-nav {
+  background: #25d366;
+  color: white !important;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.hamburger { display: none; background: none; border: none; cursor: pointer; }
+.hamburger span { display: block; width: 25px; height: 3px; background: white; margin: 5px 0; transition: 0.3s; }
+.navbar.scrolled .hamburger span { background: var(--color-dark); }
+.nav-actions-mobile { display: none; }
+
+@media (max-width: 768px) {
+  .hamburger { display: block; }
+  .nav-actions { display: none; }
+  .nav-actions-mobile { display: block; margin-top: 20px; }
+  .nav-links {
+    position: fixed;
+    top: 0; right: -100%;
+    width: 250px;
+    height: 100vh;
+    background: white;
+    flex-direction: column;
+    padding-top: 80px;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    transition: 0.3s ease-in-out;
+  }
+  .nav-links.active { right: 0; }
+  .nav-links a { color: var(--color-dark); font-size: 1.2rem; }
+}

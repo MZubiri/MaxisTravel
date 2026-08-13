@@ -1,0 +1,17 @@
+<div class="tour-card fade-in-up">
+  <div class="card-img-wrapper">
+    <img [src]="tour.imageUrl" [alt]="tour.name" class="card-img">
+    <span class="badge difficulty-badge">{{ tour.difficulty }}</span>
+  </div>
+  <div class="card-content">
+    <h3 class="card-title">{{ tour.name }}</h3>
+    <p class="card-desc">{{ tour.description }}</p>
+    <div class="card-meta">
+      <span>⏱ {{ tour.duration }}</span>
+      <span class="price">${{ tour.price }}</span>
+    </div>
+    <div class="card-actions">
+      <a [routerLink]="['/tours', tour.slug]" class="btn-primary">{{ 'tour.details' | translate }}</a>
+    </div>
+  </div>
+</div>

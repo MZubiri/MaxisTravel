@@ -1,0 +1,82 @@
+.tour-card {
+  background: white;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.tour-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+.card-img-wrapper {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.tour-card:hover .card-img {
+  transform: scale(1.05);
+}
+.difficulty-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--color-secondary);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+.card-content {
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.card-title {
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-dark);
+}
+.card-desc {
+  font-size: 0.9rem;
+  color: #666;
+  flex-grow: 1;
+  margin-bottom: var(--spacing-md);
+}
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  font-weight: 500;
+}
+.price {
+  font-size: 1.2rem;
+  color: var(--color-primary);
+  font-weight: bold;
+}
+.btn-primary {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  background: var(--color-primary);
+  color: white;
+  padding: 10px;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  font-weight: bold;
+  transition: var(--transition);
+}
+.btn-primary:hover {
+  background: var(--color-secondary);
+}

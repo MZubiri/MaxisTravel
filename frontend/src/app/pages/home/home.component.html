@@ -1,0 +1,73 @@
+<section class="hero-section">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <img src="assets/images/logo.jpeg" alt="MaxisTravel Logo" class="hero-logo fade-in-up">
+    <h1 class="fade-in-up" style="animation-delay: 0.2s">{{ 'hero.title' | translate }}</h1>
+    <p class="subtitle fade-in-up" style="animation-delay: 0.4s">{{ 'hero.subtitle' | translate }}</p>
+    <div class="hero-actions fade-in-up" style="animation-delay: 0.6s">
+      <a routerLink="/tours" class="btn btn-primary">{{ 'hero.cta_tours' | translate }}</a>
+      <a href="https://wa.me/51920698122" target="_blank" class="btn btn-whatsapp">{{ 'hero.cta_whatsapp' | translate }}</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">↓</div>
+</section>
+
+<div class="andean-divider"></div>
+
+<section class="tours-section section-padding">
+  <div class="container">
+    <h2 class="section-title text-center">{{ 'tours.title' | translate }}</h2>
+    <div class="tours-grid">
+      <app-tour-card *ngFor="let tour of tours" [tour]="tour"></app-tour-card>
+    </div>
+    <div class="text-center mt-lg">
+      <a routerLink="/tours" class="link-view-all">Ver todos los tours →</a>
+    </div>
+  </div>
+</section>
+
+<section class="why-us-section section-padding bg-light">
+  <div class="container">
+    <h2 class="section-title text-center">¿Por qué elegir MaxisTravel?</h2>
+    <div class="features-grid">
+      <div class="feature-card inca-border fade-in-up">
+        <div class="icon">🏔️</div>
+        <h3>Experiencia Local</h3>
+        <p>10+ años conociendo cada rincón de Cusco</p>
+      </div>
+      <div class="feature-card inca-border fade-in-up" style="animation-delay: 0.2s">
+        <div class="icon">👨‍🏫</div>
+        <h3>Guías Profesionales</h3>
+        <p>Bilingüe español/inglés, certificados</p>
+      </div>
+      <div class="feature-card inca-border fade-in-up" style="animation-delay: 0.4s">
+        <div class="icon">💰</div>
+        <h3>Mejores Precios</h3>
+        <p>Precios directos sin intermediarios</p>
+      </div>
+      <div class="feature-card inca-border fade-in-up" style="animation-delay: 0.6s">
+        <div class="icon">🛡️</div>
+        <h3>Seguridad Garantizada</h3>
+        <p>Equipos de emergencia y primeros auxilios</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery-section section-padding">
+  <div class="container">
+    <h2 class="section-title text-center">Galería de Experiencias</h2>
+    <div class="masonry-grid">
+      <div class="masonry-item" *ngFor="let photo of galleryPhotos">
+        <img [src]="photo" alt="Experiencia MaxisTravel" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section section-padding">
+  <div class="container text-center">
+    <h2>¿Listo para tu aventura?</h2>
+    <a href="https://wa.me/51920698122" target="_blank" class="btn btn-whatsapp pulse-anim mt-md">Reserva ahora por WhatsApp</a>
+  </div>
+</section>

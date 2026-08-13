@@ -1,0 +1,19 @@
+<div class="tours-hero">
+  <div class="overlay"></div>
+  <h1>Nuestros Tours en Cusco</h1>
+</div>
+
+<div class="container section-padding">
+  <div class="filter-bar">
+    <button *ngFor="let filter of filters" 
+            class="filter-btn" 
+            [class.active]="activeFilter === filter"
+            (click)="setFilter(filter)">
+      {{ filter }}
+    </button>
+  </div>
+
+  <div class="tours-grid">
+    <app-tour-card *ngFor="let tour of filteredTours" [tour]="tour"></app-tour-card>
+  </div>
+</div>
