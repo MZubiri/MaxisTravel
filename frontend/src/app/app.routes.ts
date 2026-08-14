@@ -8,7 +8,9 @@ import { LoginComponent } from './admin/login/login.component';
 import { AdminLayoutComponent } from './admin/admin-layout/admin-layout.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { TourManagementComponent } from './admin/tour-management/tour-management.component';
+import { GalleryManagementComponent } from './admin/gallery-management/gallery-management.component';
 import { PaletteSelectorComponent } from './admin/settings/palette-selector/palette-selector.component';
+import { ChangePasswordComponent } from './admin/settings/change-password/change-password.component';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -26,7 +28,9 @@ export const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'tours', component: TourManagementComponent },
-      { path: 'paleta', component: PaletteSelectorComponent }
+      { path: 'galeria', component: GalleryManagementComponent },
+      { path: 'paleta', component: PaletteSelectorComponent },
+      { path: 'password', component: ChangePasswordComponent }
     ]
   },
   { path: '**', redirectTo: '' }

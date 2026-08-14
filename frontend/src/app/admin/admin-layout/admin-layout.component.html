@@ -1,17 +1,50 @@
 <div class="admin-wrapper">
   <aside class="admin-sidebar">
-    <div class="admin-logo">MaxisTravel Admin</div>
+    <div class="admin-logo">
+      <img src="assets/images/logo.jpeg" alt="MaxisTravel" class="sidebar-logo-img">
+      <div class="sidebar-logo-text">
+        <span class="brand-title">MaxisTravel</span>
+        <span class="brand-sub">Panel de Control</span>
+      </div>
+    </div>
+
     <nav class="admin-nav">
-      <a routerLink="/admin/dashboard" routerLinkActive="active">📊 Dashboard</a>
-      <a routerLink="/admin/tours" routerLinkActive="active">🗺️ Tours</a>
-      <a routerLink="/admin/paleta" routerLinkActive="active">🎨 Paleta</a>
+      <a routerLink="/admin/dashboard" routerLinkActive="active">
+        <span class="nav-icon">📊</span> Dashboard
+      </a>
+      <a routerLink="/admin/tours" routerLinkActive="active">
+        <span class="nav-icon">🗺️</span> Gestión de Tours
+      </a>
+      <a routerLink="/admin/galeria" routerLinkActive="active">
+        <span class="nav-icon">🖼️</span> Galería & Carrusel
+      </a>
+      <a routerLink="/admin/paleta" routerLinkActive="active">
+        <span class="nav-icon">🎨</span> Paleta de Colores
+      </a>
+      <a routerLink="/admin/password" routerLinkActive="active">
+        <span class="nav-icon">🔑</span> Cambiar Contraseña
+      </a>
     </nav>
+
+    <div class="sidebar-footer">
+      <a routerLink="/" target="_blank" class="btn-view-site">
+        🌐 Ver Sitio Público
+      </a>
+    </div>
   </aside>
+
   <div class="admin-main">
     <header class="admin-topbar">
-      <span>Bienvenido, Admin</span>
-      <a routerLink="/" class="btn-logout">Salir al sitio web</a>
+      <div class="user-greeting">
+        <span>👋 Hola, <strong>{{ authService.currentUser()?.fullName || 'Administrador' }}</strong></span>
+      </div>
+      <button (click)="logout()" class="btn-logout">
+        🚪 Cerrar Sesión
+      </button>
     </header>
-    <div class="admin-content"><router-outlet></router-outlet></div>
+
+    <main class="admin-content">
+      <router-outlet></router-outlet>
+    </main>
   </div>
 </div>

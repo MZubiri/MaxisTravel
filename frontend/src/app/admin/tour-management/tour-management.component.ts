@@ -146,8 +146,23 @@ import { Tour } from '../../core/models/tour.model';
             </div>
 
             <div class="form-group">
-              <label>Ruta Imagen (URL / Assets)</label>
-              <input type="text" [(ngModel)]="currentTour.imageUrl" name="imageUrl" class="form-input" placeholder="assets/images/tours/city-tour/city-tour-001.jpeg">
+              <label>Imagen del Tour (Subir desde equipo o ingresar URL)</label>
+              <div class="image-upload-box">
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  #tourFileInput 
+                  (change)="onTourImageSelected($event)" 
+                  style="display: none">
+                <div class="upload-dropzone" (click)="tourFileInput.click()">
+                  <img [src]="currentTour.imageUrl || 'assets/images/logo.jpeg'" class="preview-img">
+                  <div class="upload-prompt">
+                    <span>📁 Haz clic para subir foto desde tu equipo</span>
+                    <span class="upload-sub">Formatos soportados: JPG, PNG, WEBP</span>
+                  </div>
+                </div>
+                <input type="text" [(ngModel)]="currentTour.imageUrl" name="imageUrl" class="form-input mt-2" placeholder="O pega una URL/ruta de imagen">
+              </div>
             </div>
 
             <div class="form-group">
@@ -489,6 +504,42 @@ import { Tour } from '../../core/models/tour.model';
       font-weight: 600;
       cursor: pointer;
     }
+
+    .upload-dropzone {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      background: #F8FAFC;
+      border: 2px dashed #CBD5E1;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .upload-dropzone:hover {
+      border-color: #C97F6C;
+      background: #FFF8F5;
+    }
+    .preview-img {
+      width: 70px;
+      height: 70px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 1px solid #E2E8F0;
+    }
+    .upload-prompt {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #334155;
+    }
+    .upload-sub {
+      font-size: 0.8rem;
+      color: #94A3B8;
+      font-weight: 400;
+    }
+    .mt-2 { margin-top: 8px; }
   `]
 })
 export class TourManagementComponent implements OnInit {
@@ -567,6 +618,17 @@ export class TourManagementComponent implements OnInit {
           this.loadTours();
         });
       }
+    }
+  }
+
+  onTourImageSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.currentTour.imageUrl = reader.result as string;
+      };
+      reader.readAsDataURL(file);
     }
   }
 
