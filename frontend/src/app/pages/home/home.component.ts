@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { TourCardComponent } from '../../shared/components/tour-card/tour-card.component';
+import { GalleryCarouselComponent } from '../../shared/components/gallery-carousel/gallery-carousel.component';
 import { TourService } from '../../core/services/tour.service';
 import { Tour } from '../../core/models/tour.model';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslatePipe, TourCardComponent],
+  imports: [CommonModule, RouterModule, TranslatePipe, TourCardComponent, GalleryCarouselComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

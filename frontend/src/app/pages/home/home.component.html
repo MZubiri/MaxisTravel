@@ -109,11 +109,7 @@
       <p class="section-subtitle">Momentos inolvidables junto a nuestros viajeros en Cusco</p>
     </div>
 
-    <div class="masonry-grid">
-      <div class="masonry-item" *ngFor="let photo of galleryPhotos">
-        <img [src]="photo" alt="Experiencia MaxisTravel" loading="lazy">
-      </div>
-    </div>
+    <app-gallery-carousel [photos]="galleryPhotos"></app-gallery-carousel>
   </div>
 </section>
 
