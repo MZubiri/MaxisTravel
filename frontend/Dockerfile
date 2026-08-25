@@ -9,7 +9,7 @@ ARG API_URL=http://localhost:5000
 
 # Copy package files and install
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 
 # Copy source
 COPY . .
@@ -28,8 +28,8 @@ FROM nginx:alpine AS runtime
 # Copy custom nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy built Angular app
-COPY --from=build /app/dist/frontend/browser /usr/share/nginx/html
+# Copy built Angular app (handles both Angular 18 dist layouts)
+COPY --from=build /app/dist/frontend /usr/share/nginx/html
 
 # Expose port
 EXPOSE 80
