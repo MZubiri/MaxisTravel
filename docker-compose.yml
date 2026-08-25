@@ -80,4 +80,5 @@ networks:
   maxis-network:
     driver: bridge
   coolify:
+    name: coolify
     external: true
