@@ -31,12 +31,196 @@
 .price-from { color: #666; font-size: 0.9rem; }
 .price-amount { font-size: 2.5rem; font-weight: bold; color: var(--color-dark); margin: 5px 0; }
 .price-per { color: #666; font-size: 0.9rem; }
-.btn-whatsapp-book { display: block; background: #25D366; color: white; text-align: center; padding: 15px; border-radius: var(--border-radius); font-weight: bold; font-size: 1.1rem; text-decoration: none; margin-bottom: var(--spacing-lg); transition: var(--transition); }
-.btn-whatsapp-book:hover { background: #128C7E; transform: translateY(-3px); }
+
+.btn-mp-book {
+  display: block;
+  width: 100%;
+  background: linear-gradient(135deg, #009EE3 0%, #0087C4 100%);
+  color: white;
+  text-align: center;
+  padding: 14px 18px;
+  border-radius: var(--border-radius);
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 15px rgba(0, 158, 227, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-mp-book:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 158, 227, 0.5);
+}
+
+.btn-whatsapp-book { display: block; background: #25D366; color: white; text-align: center; padding: 14px 18px; border-radius: var(--border-radius); font-weight: bold; font-size: 1rem; text-decoration: none; margin-bottom: var(--spacing-lg); transition: var(--transition); }
+.btn-whatsapp-book:hover { background: #128C7E; transform: translateY(-2px); }
+
 .sidebar-info { border-top: 1px solid #eee; padding-top: var(--spacing-md); }
 .info-row { display: flex; justify-content: space-between; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #eee; }
 .info-row span:first-child { color: #666; font-weight: 500; }
 .info-row span:last-child { font-weight: bold; color: var(--color-dark); text-align: right; }
+
+/* Mercado Pago Modal */
+.mp-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(6px);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.mp-modal-card {
+  background: #FFFFFF;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+
+.mp-modal-header {
+  padding: 20px 24px;
+  background: #F8FAFC;
+  border-bottom: 1px solid #E2E8F0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mp-logo-badge {
+  display: inline-block;
+  background: #009EE3;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 4px;
+}
+
+.mp-modal-header h3 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  color: #0F172A;
+}
+
+.mp-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #64748B;
+}
+
+.mp-modal-body {
+  padding: 24px;
+}
+
+.mp-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #CBD5E1;
+  border-radius: 12px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.passenger-selector {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #F8FAFC;
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+}
+
+.btn-counter {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid #CBD5E1;
+  background: white;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.passenger-count {
+  font-weight: 700;
+  font-size: 1.05rem;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.payment-summary {
+  background: #F8FAFC;
+  border-radius: 16px;
+  padding: 16px;
+  margin: 20px 0;
+  border: 1px solid #E2E8F0;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+.summary-divider {
+  height: 1px;
+  background: #E2E8F0;
+  margin: 10px 0;
+}
+
+.total-row {
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #0F172A;
+  margin-bottom: 0;
+}
+
+.total-price {
+  color: #009EE3;
+  font-size: 1.3rem;
+}
+
+.mp-security-note {
+  font-size: 0.82rem;
+  color: #64748B;
+  text-align: center;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.btn-mp-checkout {
+  width: 100%;
+  background: linear-gradient(135deg, #009EE3 0%, #0087C4 100%);
+  color: white;
+  border: none;
+  padding: 16px;
+  border-radius: 14px;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 158, 227, 0.4);
+  transition: all 0.3s ease;
+}
+
+.btn-mp-checkout:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 158, 227, 0.6);
+}
 
 @media (max-width: 900px) {
   .tour-detail-layout { grid-template-columns: 1fr; }

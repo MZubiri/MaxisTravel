@@ -23,7 +23,7 @@
     </section>
 
     <section class="tour-itinerary fade-in-up" style="animation-delay:0.2s">
-      <h2>🗺️ Itinerario</h2>
+      <h2>🗺️ Itinerario (Puntos a Visitar)</h2>
       <div class="timeline">
         <div class="timeline-item" *ngFor="let item of tour.itinerary">
           <div class="timeline-time">{{item.time}}</div>
@@ -68,9 +68,17 @@
         <span class="price-amount">US$ {{tour.price}}</span>
         <span class="price-per">por persona</span>
       </div>
+
+      <!-- Mercado Pago Button -->
+      <button class="btn-mp-book" (click)="openPaymentModal()">
+        💳 Reservar y Pagar Online (Mercado Pago)
+      </button>
+
+      <!-- WhatsApp Direct Button -->
       <a [href]="whatsappLink" target="_blank" class="btn-whatsapp-book">
-        💬 Reservar por WhatsApp
+        💬 Consultar por WhatsApp
       </a>
+
       <div class="sidebar-info">
         <div class="info-row"><span>⏱️ Duración</span><span>{{tour.duration}}</span></div>
         <div class="info-row"><span>🥾 Dificultad</span><span>{{tour.difficulty}}</span></div>
@@ -80,4 +88,57 @@
       </div>
     </div>
   </aside>
+</div>
+
+<!-- MERCADO PAGO CHECKOUT MODAL -->
+<div class="mp-modal-overlay" *ngIf="showPaymentModal" (click)="closePaymentModal()">
+  <div class="mp-modal-card" (click)="$event.stopPropagation()">
+    <div class="mp-modal-header">
+      <div class="mp-brand-header">
+        <span class="mp-logo-badge">💳 Mercado Pago</span>
+        <h3>Reserva Online — {{ tour.name }}</h3>
+      </div>
+      <button class="mp-modal-close" (click)="closePaymentModal()">✕</button>
+    </div>
+
+    <div class="mp-modal-body">
+      <div class="form-group">
+        <label>Fecha de Viaje</label>
+        <input type="date" [(ngModel)]="travelDate" class="mp-input">
+      </div>
+
+      <div class="form-group">
+        <label>Número de Pasajeros</label>
+        <div class="passenger-selector">
+          <button type="button" class="btn-counter" (click)="passengers = passengers > 1 ? passengers - 1 : 1">-</button>
+          <span class="passenger-count">{{ passengers }} persona(s)</span>
+          <button type="button" class="btn-counter" (click)="passengers = passengers + 1">+</button>
+        </div>
+      </div>
+
+      <div class="payment-summary">
+        <div class="summary-row">
+          <span>Precio por persona:</span>
+          <span>US$ {{ tour.price }}</span>
+        </div>
+        <div class="summary-row">
+          <span>Pasajeros:</span>
+          <span>x {{ passengers }}</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-row total-row">
+          <span>Total a pagar:</span>
+          <span class="total-price">US$ {{ totalAmount }}</span>
+        </div>
+      </div>
+
+      <div class="mp-security-note">
+        🔒 Pago 100% seguro con Tarjeta de Crédito, Débito, Yape o PagoEfectivo mediante Mercado Pago.
+      </div>
+
+      <button class="btn-mp-checkout" (click)="payWithMercadoPago()">
+        <span>Pagar US$ {{ totalAmount }} en Mercado Pago ➔</span>
+      </button>
+    </div>
+  </div>
 </div>

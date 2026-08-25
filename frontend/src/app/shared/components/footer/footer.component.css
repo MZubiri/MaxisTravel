@@ -1,9 +1,123 @@
-.footer { background: var(--color-dark); color: white; padding-top: var(--spacing-xl); }
-.footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-lg); padding: 0 var(--spacing-md); }
-.footer-logo { width: 120px; border-radius: 8px; margin-bottom: var(--spacing-md); }
-.footer-col h3 { color: var(--color-accent); margin-bottom: var(--spacing-md); }
-.footer-col ul { list-style: none; padding: 0; }
-.footer-col ul li { margin-bottom: 10px; }
-.footer-col ul li a { color: var(--color-light); text-decoration: none; transition: var(--transition); }
-.footer-col ul li a:hover { color: var(--color-primary); padding-left: 5px; }
-.footer-bottom { text-align: center; padding: var(--spacing-md); margin-top: var(--spacing-lg); border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; }
+.footer {
+  background: var(--color-dark);
+  color: white;
+  padding-top: var(--spacing-xl);
+  font-family: var(--font-body);
+}
+
+.footer-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--spacing-lg);
+  padding: 0 var(--spacing-md);
+}
+
+.footer-logo {
+  width: 130px;
+  border-radius: 8px;
+  margin-bottom: var(--spacing-md);
+}
+
+.footer-col h3 {
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-md);
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-col ul li {
+  margin-bottom: 10px;
+}
+
+.footer-col ul li a {
+  color: var(--color-light);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.footer-col ul li a:hover {
+  color: var(--color-primary);
+  padding-left: 5px;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* TripAdvisor Badge */
+.tripadvisor-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(0, 170, 108, 0.4);
+  padding: 10px 16px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: white;
+  margin-top: 16px;
+  transition: all 0.3s ease;
+}
+
+.tripadvisor-badge:hover {
+  background: rgba(0, 170, 108, 0.15);
+  border-color: #00AA6C;
+  transform: translateY(-2px);
+}
+
+.ta-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.ta-title {
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: #FFFFFF;
+}
+
+.ta-rating {
+  font-size: 0.75rem;
+  color: #00AA6C;
+  font-weight: 700;
+}
+
+/* Mercado Pago Badges */
+.pay-sub {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 12px;
+}
+
+.payment-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pay-badge {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.mp-badge {
+  background: #009EE3;
+  border-color: #0087C4;
+}
