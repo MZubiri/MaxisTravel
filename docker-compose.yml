@@ -48,21 +48,33 @@ services:
       - uploads:/app/uploads
     networks:
       - maxis-network
+      - coolify
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.maxis-api.rule=Host(`api.maxistravel.147.15.100.230.sslip.io`)"
+      - "traefik.http.routers.maxis-api.entrypoints=http"
+      - "traefik.http.services.maxis-api.loadbalancer.server.port=8080"
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        - API_URL=${API_URL:-http://localhost:5000}
+        - API_URL=${API_URL:-http://api.maxistravel.147.15.100.230.sslip.io}
     container_name: maxis-web
     restart: unless-stopped
     ports:
-      - "${WEB_PORT:-80}:80"
+      - "${WEB_PORT:-8088}:80"
     depends_on:
       - backend
     networks:
       - maxis-network
+      - coolify
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.maxis-web.rule=Host(`maxistravel.147.15.100.230.sslip.io`)"
+      - "traefik.http.routers.maxis-web.entrypoints=http"
+      - "traefik.http.services.maxis-web.loadbalancer.server.port=80"
 
 volumes:
   mysql_data:
@@ -73,3 +85,5 @@ volumes:
 networks:
   maxis-network:
     driver: bridge
+  coolify:
+    external: true
