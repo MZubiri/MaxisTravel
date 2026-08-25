@@ -51,8 +51,8 @@ services:
       - coolify
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.maxis-api.rule=Host(`api.maxistravel.147.15.100.230.sslip.io`)"
-      - "traefik.http.routers.maxis-api.entrypoints=http"
+      - "traefik.http.routers.maxis-api.rule=Host(`maxistravel.com`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.maxis-api.entrypoints=http,https"
       - "traefik.http.services.maxis-api.loadbalancer.server.port=8080"
 
   frontend:
@@ -60,7 +60,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        - API_URL=${API_URL:-http://api.maxistravel.147.15.100.230.sslip.io}
+        - API_URL=${API_URL:-/api}
     container_name: maxis-web
     restart: unless-stopped
     ports:
@@ -72,8 +72,8 @@ services:
       - coolify
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.maxis-web.rule=Host(`maxistravel.147.15.100.230.sslip.io`)"
-      - "traefik.http.routers.maxis-web.entrypoints=http"
+      - "traefik.http.routers.maxis-web.rule=Host(`maxistravel.com`) || Host(`www.maxistravel.com`)"
+      - "traefik.http.routers.maxis-web.entrypoints=http,https"
       - "traefik.http.services.maxis-web.loadbalancer.server.port=80"
 
 volumes:
