@@ -134,6 +134,14 @@
         </div>
       </div>
 
+      <!-- Mode Selector (Sandbox vs Production) -->
+      <div class="mode-selector-box">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="isSandboxMode">
+          <span>🧪 <strong>Modo Pruebas / Sandbox</strong> (Usar con tarjetas de prueba Mercado Pago)</span>
+        </label>
+      </div>
+
       <!-- Summary -->
       <div class="payment-summary">
         <div class="summary-row">
@@ -158,6 +166,9 @@
           <span>{{ showTestCredentials ? '▲' : '▼' }}</span>
         </button>
         <div class="test-details" *ngIf="showTestCredentials">
+          <p class="test-warning-text">
+            ⚠️ <em>Para usar estas tarjetas ficticias activa el checkbox de <strong>Modo Pruebas / Sandbox</strong> arriba.</em>
+          </p>
           <div class="test-cards-grid">
             <div class="test-card-item">
               <strong>Mastercard:</strong> <code>5031 7557 3453 0604</code> | CVV: <code>123</code> | Exp: <code>11/30</code>
@@ -170,17 +181,19 @@
             </div>
           </div>
           <div class="test-account-note">
-            👤 <strong>Comprador Prueba:</strong> USER ID <code>3664703186</code> | Código: <code>703186</code>
+            👤 <strong>Comprador Prueba:</strong> USER ID <code>3664703186</code> | Clave: <code>pLwnUXcL3U</code>
           </div>
         </div>
       </div>
 
       <div class="mp-security-note">
-        🔒 Transacción segura encriptada. Serás redirigido al Checkout Pro oficial de Mercado Pago para procesar tu pago.
+        🔒 Transacción segura encriptada. Serás redirigido al Checkout Pro oficial de Mercado Pago ({{ isSandboxMode ? 'Entorno Sandbox de Pruebas' : 'Entorno Producción Real' }}).
       </div>
 
       <button class="btn-mp-checkout" (click)="payWithMercadoPago()" [disabled]="isProcessingPayment">
-        <span *ngIf="!isProcessingPayment">Pagar US$ {{ totalAmount }} con Mercado Pago ➔</span>
+        <span *ngIf="!isProcessingPayment">
+          {{ isSandboxMode ? '🧪 Probar Pago Sandbox (US$ ' + totalAmount + ') ➔' : 'Pagar US$ ' + totalAmount + ' en Mercado Pago ➔' }}
+        </span>
         <span *ngIf="isProcessingPayment" class="loading-spinner">⏳ Generando preferencia de pago...</span>
       </button>
     </div>

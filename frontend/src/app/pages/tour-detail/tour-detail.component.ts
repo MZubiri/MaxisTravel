@@ -27,6 +27,7 @@ export class TourDetailComponent implements OnInit {
   showPaymentModal = false;
   isProcessingPayment = false;
   showTestCredentials = false;
+  isSandboxMode = false; // Toggle between Live Production and Test Sandbox
 
   constructor(
     private route: ActivatedRoute, 
@@ -78,6 +79,9 @@ export class TourDetailComponent implements OnInit {
 
   toggleTestCredentials() {
     this.showTestCredentials = !this.showTestCredentials;
+    if (this.showTestCredentials) {
+      this.isSandboxMode = true; // Automatically enable Sandbox mode when test credentials panel is opened
+    }
   }
 
   payWithMercadoPago() {
@@ -101,7 +105,11 @@ export class TourDetailComponent implements OnInit {
     this.paymentService.createMercadoPagoPreference(req).subscribe({
       next: (res) => {
         this.isProcessingPayment = false;
-        const checkoutUrl = res.initPoint || res.sandboxInitPoint;
+        // If Sandbox Mode is selected or test credentials opened, use sandboxInitPoint
+        const checkoutUrl = (this.isSandboxMode && res.sandboxInitPoint) 
+          ? res.sandboxInitPoint 
+          : (res.initPoint || res.sandboxInitPoint);
+
         if (checkoutUrl) {
           window.location.href = checkoutUrl;
         } else {
