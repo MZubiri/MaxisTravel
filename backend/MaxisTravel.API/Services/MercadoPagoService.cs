@@ -41,9 +41,12 @@ namespace MaxisTravel.API.Services
             var accessToken = _configuration["MercadoPagoSettings:AccessToken"] ?? "APP_USR-5352056971681212-090321-1118220f55a88fe40544f52301a25727-3656504962";
             var publicKey = GetPublicKey();
 
-            var baseUrl = string.IsNullOrWhiteSpace(originUrl) || originUrl.Contains("localhost") 
-                ? "https://maxistravel.com" 
-                : originUrl.TrimEnd('/');
+            // Enforce HTTPS base URL for Mercado Pago auto_return requirement
+            var baseUrl = "https://maxistravel.com";
+            if (!string.IsNullOrWhiteSpace(originUrl) && !originUrl.Contains("localhost") && !originUrl.Contains("127.0.0.1"))
+            {
+                baseUrl = originUrl.TrimEnd('/').Replace("http://", "https://");
+            }
 
             var splitName = (request.BuyerName ?? "Pasajero Maxis").Trim().Split(' ', 2);
             var firstName = splitName[0];
