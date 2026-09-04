@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using MaxisTravel.API.DTOs;
 using Microsoft.Extensions.Configuration;
@@ -47,41 +49,41 @@ namespace MaxisTravel.API.Services
             var firstName = splitName[0];
             var lastName = splitName.Length > 1 ? splitName[1] : "Pasajero";
 
-            var preferencePayload = new
+            var preferencePayload = new MpPreferencePayload
             {
-                items = new[]
+                Items = new List<MpItemPayload>
                 {
-                    new
+                    new MpItemPayload
                     {
-                        id = string.IsNullOrEmpty(request.TourId) ? "tour-general" : request.TourId,
-                        title = $"Tour: {request.TourName} ({request.Passengers} pers. - {request.TravelDate})",
-                        description = $"Reserva de tour {request.TourName} en Cusco con MaxisTravel",
-                        category_id = "travel",
-                        quantity = 1,
-                        currency_id = string.IsNullOrWhiteSpace(request.Currency) ? "USD" : request.Currency.ToUpper(),
-                        unit_price = (double)request.TotalAmount
+                        Id = string.IsNullOrEmpty(request.TourId) ? "tour-general" : request.TourId,
+                        Title = $"Tour: {request.TourName} ({request.Passengers} pers. - {request.TravelDate})",
+                        Description = $"Reserva de tour {request.TourName} en Cusco con MaxisTravel",
+                        CategoryId = "travel",
+                        Quantity = 1,
+                        CurrencyId = string.IsNullOrWhiteSpace(request.Currency) ? "USD" : request.Currency.ToUpper(),
+                        UnitPrice = request.TotalAmount
                     }
                 },
-                payer = new
+                Payer = new MpPayerPayload
                 {
-                    name = firstName,
-                    surname = lastName,
-                    email = string.IsNullOrWhiteSpace(request.BuyerEmail) ? "cliente@maxistravel.com" : request.BuyerEmail,
-                    phone = new
+                    Name = firstName,
+                    Surname = lastName,
+                    Email = string.IsNullOrWhiteSpace(request.BuyerEmail) ? "cliente@maxistravel.com" : request.BuyerEmail,
+                    Phone = new MpPhonePayload
                     {
-                        area_code = "51",
-                        number = string.IsNullOrWhiteSpace(request.BuyerPhone) ? "920698122" : request.BuyerPhone.Replace(" ", "").Replace("+", "")
+                        AreaCode = "51",
+                        Number = string.IsNullOrWhiteSpace(request.BuyerPhone) ? "920698122" : request.BuyerPhone.Replace(" ", "").Replace("+", "")
                     }
                 },
-                back_urls = new
+                BackUrls = new MpBackUrlsPayload
                 {
-                    success = $"{baseUrl}/tours?payment=approved",
-                    failure = $"{baseUrl}/tours?payment=failure",
-                    pending = $"{baseUrl}/tours?payment=pending"
+                    Success = $"{baseUrl}/tours?payment=approved",
+                    Failure = $"{baseUrl}/tours?payment=failure",
+                    Pending = $"{baseUrl}/tours?payment=pending"
                 },
-                auto_return = "approved",
-                external_reference = $"MAXIS-{request.TourId}-{DateTime.UtcNow.Ticks}",
-                statement_descriptor = "MAXISTRAVEL"
+                AutoReturn = "approved",
+                ExternalReference = $"MAXIS-{request.TourId}-{DateTime.UtcNow.Ticks}",
+                StatementDescriptor = "MAXISTRAVEL"
             };
 
             var jsonContent = JsonSerializer.Serialize(preferencePayload);
@@ -115,5 +117,86 @@ namespace MaxisTravel.API.Services
                 PublicKey = publicKey
             };
         }
+    }
+
+    public class MpPreferencePayload
+    {
+        [JsonPropertyName("items")]
+        public List<MpItemPayload> Items { get; set; } = new();
+
+        [JsonPropertyName("payer")]
+        public MpPayerPayload Payer { get; set; } = new();
+
+        [JsonPropertyName("back_urls")]
+        public MpBackUrlsPayload BackUrls { get; set; } = new();
+
+        [JsonPropertyName("auto_return")]
+        public string AutoReturn { get; set; } = "approved";
+
+        [JsonPropertyName("external_reference")]
+        public string ExternalReference { get; set; } = string.Empty;
+
+        [JsonPropertyName("statement_descriptor")]
+        public string StatementDescriptor { get; set; } = "MAXISTRAVEL";
+    }
+
+    public class MpItemPayload
+    {
+        [JsonPropertyName("id")]
+        public string Id { get; set; } = string.Empty;
+
+        [JsonPropertyName("title")]
+        public string Title { get; set; } = string.Empty;
+
+        [JsonPropertyName("description")]
+        public string Description { get; set; } = string.Empty;
+
+        [JsonPropertyName("category_id")]
+        public string CategoryId { get; set; } = "travel";
+
+        [JsonPropertyName("quantity")]
+        public int Quantity { get; set; } = 1;
+
+        [JsonPropertyName("currency_id")]
+        public string CurrencyId { get; set; } = "USD";
+
+        [JsonPropertyName("unit_price")]
+        public decimal UnitPrice { get; set; }
+    }
+
+    public class MpPayerPayload
+    {
+        [JsonPropertyName("name")]
+        public string Name { get; set; } = string.Empty;
+
+        [JsonPropertyName("surname")]
+        public string Surname { get; set; } = string.Empty;
+
+        [JsonPropertyName("email")]
+        public string Email { get; set; } = string.Empty;
+
+        [JsonPropertyName("phone")]
+        public MpPhonePayload Phone { get; set; } = new();
+    }
+
+    public class MpPhonePayload
+    {
+        [JsonPropertyName("area_code")]
+        public string AreaCode { get; set; } = "51";
+
+        [JsonPropertyName("number")]
+        public string Number { get; set; } = string.Empty;
+    }
+
+    public class MpBackUrlsPayload
+    {
+        [JsonPropertyName("success")]
+        public string Success { get; set; } = string.Empty;
+
+        [JsonPropertyName("failure")]
+        public string Failure { get; set; } = string.Empty;
+
+        [JsonPropertyName("pending")]
+        public string Pending { get; set; } = string.Empty;
     }
 }
