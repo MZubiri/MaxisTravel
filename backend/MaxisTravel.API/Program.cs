@@ -40,6 +40,7 @@ builder.Services.AddScoped<ITourService, TourService>();
 builder.Services.AddScoped<ISettingsService, SettingsService>();
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddSingleton<IImageService, ImageService>();
+builder.Services.AddHttpClient<IMercadoPagoService, MercadoPagoService>();
 
 // CORS
 builder.Services.AddCors(options =>

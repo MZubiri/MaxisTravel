@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, catchError, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface PaymentRequest {
@@ -20,6 +20,7 @@ export interface PaymentPreferenceResponse {
   preferenceId: string;
   initPoint: string; // Mercado Pago Checkout Pro URL
   sandboxInitPoint: string;
+  publicKey?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -29,17 +30,18 @@ export class PaymentService {
   constructor(private http: HttpClient) {}
 
   createMercadoPagoPreference(req: PaymentRequest): Observable<PaymentPreferenceResponse> {
-    // Try backend API first if available, otherwise return sandbox preference URL
-    return this.http.post<PaymentPreferenceResponse>(`${this.apiUrl}/create-preference`, req);
-  }
-
-  processDemoMercadoPagoCheckout(req: PaymentRequest) {
-    // Mercado Pago Checkout Pro simulation URL or live link
-    const itemTitle = encodeURIComponent(`MaxisTravel Tour: ${req.tourName} (${req.passengers} personas - ${req.travelDate})`);
-    const amount = req.totalAmount;
-    
-    // Mercado Pago Checkout link
-    const demoUrl = `https://www.mercadopago.com.pe/checkout/v1/redirect?pref_id=demo-${Date.now()}`;
-    return demoUrl;
+    return this.http.post<PaymentPreferenceResponse>(`${this.apiUrl}/create-preference`, req).pipe(
+      catchError(err => {
+        console.warn('Backend payment endpoint error, fallback to client preference URL generation:', err);
+        // Fallback for standalone demo if backend endpoint is unavailable
+        const demoUrl = `https://www.mercadopago.com.pe/checkout/v1/redirect?pref_id=demo-${Date.now()}`;
+        return of({
+          preferenceId: `demo-${Date.now()}`,
+          initPoint: demoUrl,
+          sandboxInitPoint: demoUrl,
+          publicKey: 'APP_USR-34d6e223-2266-4ade-ab48-feb3064fa79b'
+        });
+      })
+    );
   }
 }

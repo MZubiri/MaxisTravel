@@ -95,27 +95,46 @@
   <div class="mp-modal-card" (click)="$event.stopPropagation()">
     <div class="mp-modal-header">
       <div class="mp-brand-header">
-        <span class="mp-logo-badge">💳 Mercado Pago</span>
+        <span class="mp-logo-badge">💳 Checkout Pro</span>
         <h3>Reserva Online — {{ tour.name }}</h3>
       </div>
-      <button class="mp-modal-close" (click)="closePaymentModal()">✕</button>
+      <button class="mp-modal-close" (click)="closePaymentModal()" [disabled]="isProcessingPayment">✕</button>
     </div>
 
     <div class="mp-modal-body">
-      <div class="form-group">
-        <label>Fecha de Viaje</label>
-        <input type="date" [(ngModel)]="travelDate" class="mp-input">
-      </div>
+      <div class="form-row-2">
+        <div class="form-group">
+          <label>Fecha de Viaje</label>
+          <input type="date" [(ngModel)]="travelDate" (change)="updateWhatsappLink()" class="mp-input">
+        </div>
 
-      <div class="form-group">
-        <label>Número de Pasajeros</label>
-        <div class="passenger-selector">
-          <button type="button" class="btn-counter" (click)="passengers = passengers > 1 ? passengers - 1 : 1">-</button>
-          <span class="passenger-count">{{ passengers }} persona(s)</span>
-          <button type="button" class="btn-counter" (click)="passengers = passengers + 1">+</button>
+        <div class="form-group">
+          <label>Número de Pasajeros</label>
+          <div class="passenger-selector">
+            <button type="button" class="btn-counter" (click)="passengers = passengers > 1 ? passengers - 1 : 1; updateWhatsappLink()">-</button>
+            <span class="passenger-count">{{ passengers }} persona(s)</span>
+            <button type="button" class="btn-counter" (click)="passengers = passengers + 1; updateWhatsappLink()">+</button>
+          </div>
         </div>
       </div>
 
+      <div class="form-group">
+        <label>Nombre Completo del Titular</label>
+        <input type="text" [(ngModel)]="buyerName" placeholder="Ej: Celinee Zubiri" class="mp-input">
+      </div>
+
+      <div class="form-row-2">
+        <div class="form-group">
+          <label>Correo Electrónico</label>
+          <input type="email" [(ngModel)]="buyerEmail" placeholder="correo@ejemplo.com" class="mp-input">
+        </div>
+        <div class="form-group">
+          <label>Teléfono / WhatsApp</label>
+          <input type="tel" [(ngModel)]="buyerPhone" placeholder="+51 920 698 122" class="mp-input">
+        </div>
+      </div>
+
+      <!-- Summary -->
       <div class="payment-summary">
         <div class="summary-row">
           <span>Precio por persona:</span>
@@ -132,12 +151,37 @@
         </div>
       </div>
 
-      <div class="mp-security-note">
-        🔒 Pago 100% seguro con Tarjeta de Crédito, Débito, Yape o PagoEfectivo mediante Mercado Pago.
+      <!-- Test Cards Accordion / Info Box -->
+      <div class="test-cards-box">
+        <button type="button" class="btn-toggle-test" (click)="toggleTestCredentials()">
+          <span>ℹ️ {{ showTestCredentials ? 'Ocultar' : 'Ver' }} Tarjetas y Credenciales de Prueba</span>
+          <span>{{ showTestCredentials ? '▲' : '▼' }}</span>
+        </button>
+        <div class="test-details" *ngIf="showTestCredentials">
+          <div class="test-cards-grid">
+            <div class="test-card-item">
+              <strong>Mastercard:</strong> <code>5031 7557 3453 0604</code> | CVV: <code>123</code> | Exp: <code>11/30</code>
+            </div>
+            <div class="test-card-item">
+              <strong>Visa:</strong> <code>4009 1753 3280 6176</code> | CVV: <code>123</code> | Exp: <code>11/30</code>
+            </div>
+            <div class="test-card-item">
+              <strong>Amex:</strong> <code>3711 803032 57522</code> | CVV: <code>1234</code> | Exp: <code>11/30</code>
+            </div>
+          </div>
+          <div class="test-account-note">
+            👤 <strong>Comprador Prueba:</strong> USER ID <code>3664703186</code> | Código: <code>703186</code>
+          </div>
+        </div>
       </div>
 
-      <button class="btn-mp-checkout" (click)="payWithMercadoPago()">
-        <span>Pagar US$ {{ totalAmount }} en Mercado Pago ➔</span>
+      <div class="mp-security-note">
+        🔒 Transacción segura encriptada. Serás redirigido al Checkout Pro oficial de Mercado Pago para procesar tu pago.
+      </div>
+
+      <button class="btn-mp-checkout" (click)="payWithMercadoPago()" [disabled]="isProcessingPayment">
+        <span *ngIf="!isProcessingPayment">Pagar US$ {{ totalAmount }} con Mercado Pago ➔</span>
+        <span *ngIf="isProcessingPayment" class="loading-spinner">⏳ Generando preferencia de pago...</span>
       </button>
     </div>
   </div>

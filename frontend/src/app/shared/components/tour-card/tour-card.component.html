@@ -2,7 +2,7 @@
   <div class="card-img-wrapper">
     <img [src]="tour.imageUrl" [alt]="tour.name" class="card-img" loading="lazy">
     <div class="card-img-overlay"></div>
-    <span class="badge difficulty-badge" [class]="tour.difficulty?.toLowerCase()">
+    <span class="badge difficulty-badge" [class]="tour.difficulty.toLowerCase()">
       {{ tour.difficulty }}
     </span>
     <span class="type-badge">{{ tour.type }}</span>

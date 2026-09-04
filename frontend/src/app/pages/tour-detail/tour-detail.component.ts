@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TourService } from '../../core/services/tour.service';
-import { PaymentService } from '../../core/services/payment.service';
+import { PaymentService, PaymentRequest } from '../../core/services/payment.service';
 import { Tour } from '../../core/models/tour.model';
 
 @Component({
@@ -20,7 +20,13 @@ export class TourDetailComponent implements OnInit {
   // Booking & Payment state
   passengers = 1;
   travelDate = '';
+  buyerName = 'Comprador Prueba';
+  buyerEmail = 'testuser@maxistravel.com';
+  buyerPhone = '920698122';
+  
   showPaymentModal = false;
+  isProcessingPayment = false;
+  showTestCredentials = false;
 
   constructor(
     private route: ActivatedRoute, 
@@ -41,13 +47,19 @@ export class TourDetailComponent implements OnInit {
         this.tourService.getTourBySlug(slug).subscribe(t => {
           if (t) {
             this.tour = t;
-            this.whatsappLink = `https://wa.me/51920698122?text=Hola MaxisTravel, estoy interesado en reservar el tour ${t.name} para ${this.passengers} persona(s).`;
+            this.updateWhatsappLink();
           } else {
             this.router.navigate(['/tours']);
           }
         });
       }
     });
+  }
+
+  updateWhatsappLink() {
+    if (this.tour) {
+      this.whatsappLink = `https://wa.me/51920698122?text=Hola MaxisTravel, estoy interesado en reservar el tour ${this.tour.name} para ${this.passengers} persona(s) el ${this.travelDate}.`;
+    }
   }
 
   get totalAmount(): number {
@@ -59,24 +71,48 @@ export class TourDetailComponent implements OnInit {
   }
 
   closePaymentModal() {
-    this.showPaymentModal = false;
+    if (!this.isProcessingPayment) {
+      this.showPaymentModal = false;
+    }
+  }
+
+  toggleTestCredentials() {
+    this.showTestCredentials = !this.showTestCredentials;
   }
 
   payWithMercadoPago() {
-    const req = {
-      tourId: this.tour.id || this.tour.slug,
+    if (this.isProcessingPayment) return;
+
+    this.isProcessingPayment = true;
+
+    const req: PaymentRequest = {
+      tourId: (this.tour.id || this.tour.slug || '1').toString(),
       tourName: this.tour.name,
       pricePerPerson: this.tour.price,
       passengers: this.passengers,
       totalAmount: this.totalAmount,
       currency: 'USD',
-      buyerName: 'Pasajero',
-      buyerEmail: 'cliente@maxistravel.com',
-      buyerPhone: '+51 920 698 122',
+      buyerName: this.buyerName,
+      buyerEmail: this.buyerEmail,
+      buyerPhone: this.buyerPhone,
       travelDate: this.travelDate
     };
 
-    const checkoutUrl = this.paymentService.processDemoMercadoPagoCheckout(req);
-    window.open(checkoutUrl, '_blank');
+    this.paymentService.createMercadoPagoPreference(req).subscribe({
+      next: (res) => {
+        this.isProcessingPayment = false;
+        const checkoutUrl = res.initPoint || res.sandboxInitPoint;
+        if (checkoutUrl) {
+          window.location.href = checkoutUrl;
+        } else {
+          alert('No se pudo generar la pasarela de pago de Mercado Pago. Intente nuevamente.');
+        }
+      },
+      error: (err) => {
+        this.isProcessingPayment = false;
+        console.error('Error initiating Mercado Pago checkout:', err);
+        alert('Ocurrió un error al conectar con Mercado Pago. Intente nuevamente.');
+      }
+    });
   }
 }
