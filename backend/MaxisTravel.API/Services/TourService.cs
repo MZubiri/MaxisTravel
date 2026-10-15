@@ -139,15 +139,72 @@ namespace MaxisTravel.API.Services
             tour.SortOrder = dto.SortOrder;
             tour.UpdatedAt = System.DateTime.UtcNow;
 
-            _context.TourTranslations.RemoveRange(tour.Translations);
+            // Update translations in place to avoid unique index (TourId, LanguageCode) violations
+            var incomingLangCodes = new HashSet<string>();
+            foreach (var trDto in dto.Translations)
+            {
+                incomingLangCodes.Add(trDto.LanguageCode);
+                var existing = tour.Translations.FirstOrDefault(t => t.LanguageCode == trDto.LanguageCode);
+                if (existing != null)
+                {
+                    existing.Title = trDto.Title;
+                    existing.ShortDescription = trDto.ShortDescription;
+                    existing.FullDescription = trDto.FullDescription;
+                    existing.WhatToBring = trDto.WhatToBring ?? string.Empty;
+                }
+                else
+                {
+                    tour.Translations.Add(new TourTranslation
+                    {
+                        TourId = tour.Id,
+                        LanguageCode = trDto.LanguageCode,
+                        Title = trDto.Title,
+                        ShortDescription = trDto.ShortDescription,
+                        FullDescription = trDto.FullDescription,
+                        WhatToBring = trDto.WhatToBring ?? string.Empty
+                    });
+                }
+            }
+            var toRemove = tour.Translations.Where(t => !incomingLangCodes.Contains(t.LanguageCode)).ToList();
+            foreach (var r in toRemove)
+            {
+                _context.TourTranslations.Remove(r);
+            }
+
+            // Replace itineraries, inclusions, and images
             _context.TourItineraries.RemoveRange(tour.Itineraries);
             _context.TourInclusions.RemoveRange(tour.Inclusions);
             _context.TourImages.RemoveRange(tour.Images);
-            
-            tour.Translations = dto.Translations.Select(tr => new TourTranslation { LanguageCode = tr.LanguageCode, Title = tr.Title, ShortDescription = tr.ShortDescription, FullDescription = tr.FullDescription, WhatToBring = tr.WhatToBring }).ToList();
-            tour.Itineraries = dto.Itineraries.Select(i => new TourItinerary { TimeSlot = i.TimeSlot, TitleEs = i.TitleEs, TitleEn = i.TitleEn, DescriptionEs = i.DescriptionEs, DescriptionEn = i.DescriptionEn, Icon = i.Icon, SortOrder = i.SortOrder }).ToList();
-            tour.Inclusions = dto.Inclusions.Select(i => new TourInclusion { TextEs = i.TextEs, TextEn = i.TextEn, IsIncluded = i.IsIncluded, SortOrder = i.SortOrder }).ToList();
-            tour.Images = dto.Images.Select(i => new TourImage { ImageUrl = i.ImageUrl, AltText = i.AltText, SortOrder = i.SortOrder, IsPrimary = i.IsPrimary }).ToList();
+
+            tour.Itineraries = dto.Itineraries.Select(i => new TourItinerary
+            {
+                TourId = tour.Id,
+                TimeSlot = i.TimeSlot,
+                TitleEs = i.TitleEs,
+                TitleEn = i.TitleEn,
+                DescriptionEs = i.DescriptionEs,
+                DescriptionEn = i.DescriptionEn,
+                Icon = i.Icon,
+                SortOrder = i.SortOrder
+            }).ToList();
+
+            tour.Inclusions = dto.Inclusions.Select(i => new TourInclusion
+            {
+                TourId = tour.Id,
+                TextEs = i.TextEs,
+                TextEn = i.TextEn,
+                IsIncluded = i.IsIncluded,
+                SortOrder = i.SortOrder
+            }).ToList();
+
+            tour.Images = dto.Images.Select(i => new TourImage
+            {
+                TourId = tour.Id,
+                ImageUrl = i.ImageUrl,
+                AltText = i.AltText,
+                SortOrder = i.SortOrder,
+                IsPrimary = i.IsPrimary
+            }).ToList();
 
             await _context.SaveChangesAsync();
             return tour;

@@ -43,17 +43,31 @@ namespace MaxisTravel.API.Controllers
         [HttpPost("api/admin/tours")]
         public async Task<IActionResult> CreateTour([FromBody] TourCreateDto dto)
         {
-            var tour = await _tourService.CreateTourAsync(dto);
-            return Ok(tour);
+            try
+            {
+                var tour = await _tourService.CreateTourAsync(dto);
+                return Ok(tour);
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(500, new { message = "Error al registrar el tour", detail = ex.Message, inner = ex.InnerException?.Message });
+            }
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPut("api/admin/tours/{id}")]
         public async Task<IActionResult> UpdateTour(int id, [FromBody] TourUpdateDto dto)
         {
-            var tour = await _tourService.UpdateTourAsync(id, dto);
-            if (tour == null) return NotFound();
-            return Ok(tour);
+            try
+            {
+                var tour = await _tourService.UpdateTourAsync(id, dto);
+                if (tour == null) return NotFound(new { message = $"Tour #{id} no encontrado." });
+                return Ok(tour);
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(500, new { message = "Error al actualizar el tour", detail = ex.Message, inner = ex.InnerException?.Message });
+            }
         }
 
         [Authorize(Roles = "Admin")]
