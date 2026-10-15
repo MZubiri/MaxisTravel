@@ -49,7 +49,7 @@ export class ContactComponent {
 
   sendWhatsApp() {
     const text = `Hola MaxisTravel! Soy ${this.contact.name}, me interesa el tour ${this.contact.tour || 'General'}. ${this.contact.message}`;
-    window.open(`https://wa.me/51920698122?text=${encodeURIComponent(text)}`, '_blank');
+    window.open(`https://wa.me/51948735614?text=${encodeURIComponent(text)}`, '_blank');
   }
 
   resetForm() {

@@ -88,7 +88,7 @@ namespace MaxisTravel.API.Services
                     Phone = new MpPhonePayload
                     {
                         AreaCode = "51",
-                        Number = string.IsNullOrWhiteSpace(request.BuyerPhone) ? "920698122" : request.BuyerPhone.Replace(" ", "").Replace("+", "")
+                        Number = string.IsNullOrWhiteSpace(request.BuyerPhone) ? "948735614" : request.BuyerPhone.Replace(" ", "").Replace("+", "")
                     }
                 },
                 BackUrls = new MpBackUrlsPayload

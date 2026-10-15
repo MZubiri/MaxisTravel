@@ -90,7 +90,7 @@ namespace MaxisTravel.API.Services
                         <p style='margin: 4px 0;'>🏷️ <strong>Estado del Pago:</strong> {booking.Status}</p>
                     </div>
                     <p>Nuestro equipo de guías y coordinadores te contactará por WhatsApp para afinar los detalles de tu recojo.</p>
-                    <p>Cualquier consulta inmediata, puedes escribirnos al WhatsApp: <strong>+51 920 698 122</strong></p>
+                    <p>Cualquier consulta inmediata, puedes escribirnos al WhatsApp: <strong>+51 948 735 614</strong></p>
                 </div>";
 
             var resAdmin = await SendEmailAsync(adminEmail, subjectAdmin, bodyHtmlAdmin);

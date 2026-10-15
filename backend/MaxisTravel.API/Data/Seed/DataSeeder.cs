@@ -50,7 +50,7 @@ namespace MaxisTravel.API.Data.Seed
             if (!context.SiteSettings.Any())
             {
                 context.SiteSettings.AddRange(
-                    new SiteSettings { SettingKey = "whatsapp_number", SettingValue = "+51920698122" },
+                    new SiteSettings { SettingKey = "whatsapp_number", SettingValue = "+51948735614" },
                     new SiteSettings { SettingKey = "brand_name", SettingValue = "MaxisTravel" },
                     new SiteSettings { SettingKey = "tagline", SettingValue = "Transporte & Turismo" }
                 );

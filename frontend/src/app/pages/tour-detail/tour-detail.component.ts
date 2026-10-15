@@ -71,7 +71,7 @@ export class TourDetailComponent implements OnInit {
 
   updateWhatsappLink() {
     if (this.tour) {
-      this.whatsappLink = `https://wa.me/51920698122?text=Hola MaxisTravel, estoy interesado en reservar el tour ${this.tour.name} para ${this.passengers} persona(s) el ${this.travelDate}.`;
+      this.whatsappLink = `https://wa.me/51948735614?text=Hola MaxisTravel, estoy interesado en reservar el tour ${this.tour.name} para ${this.passengers} persona(s) el ${this.travelDate}.`;
     }
   }
 
