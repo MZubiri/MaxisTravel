@@ -12,7 +12,7 @@ import { AuthService } from '../../core/services/auth.service';
     <div class="login-container">
       <div class="login-card">
         <div class="logo-header">
-          <img src="assets/images/logo.jpeg" alt="MaxisTravel" class="login-logo">
+          <img src="/assets/images/logo.jpeg" onerror="this.onerror=null; this.src='/logo.jpeg'" alt="MaxisTravel" class="login-logo">
           <h2>Panel Administrativo</h2>
           <p>MaxisTravel - Transporte & Turismo</p>
         </div>

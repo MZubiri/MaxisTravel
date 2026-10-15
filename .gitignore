@@ -47,7 +47,13 @@ uploads/
 # Original source files (not needed in repo)
 # =========================
 FOTOS/
-PaletaDeColores1.jpeg
-PaletaDeColores2.jpeg
-LOGO.jpeg
+/PaletaDeColores1.jpeg
+/PaletaDeColores2.jpeg
+/LOGO.jpeg
 *.txt
+
+# Ensure frontend logo is always tracked
+!frontend/src/assets/images/logo.jpeg
+!frontend/public/assets/images/logo.jpeg
+!frontend/public/logo.jpeg
+

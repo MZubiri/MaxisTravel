@@ -134,14 +134,6 @@
         </div>
       </div>
 
-      <!-- Mode Selector (Sandbox vs Production) -->
-      <div class="mode-selector-box">
-        <label class="checkbox-label">
-          <input type="checkbox" [(ngModel)]="isSandboxMode">
-          <span>🧪 <strong>Modo Pruebas / Sandbox</strong> (Usar con tarjetas de prueba Mercado Pago)</span>
-        </label>
-      </div>
-
       <!-- Summary -->
       <div class="payment-summary">
         <div class="summary-row">
@@ -159,42 +151,15 @@
         </div>
       </div>
 
-      <!-- Test Cards Accordion / Info Box -->
-      <div class="test-cards-box">
-        <button type="button" class="btn-toggle-test" (click)="toggleTestCredentials()">
-          <span>ℹ️ {{ showTestCredentials ? 'Ocultar' : 'Ver' }} Tarjetas y Credenciales de Prueba</span>
-          <span>{{ showTestCredentials ? '▲' : '▼' }}</span>
-        </button>
-        <div class="test-details" *ngIf="showTestCredentials">
-          <p class="test-warning-text">
-            ⚠️ <em>Para usar estas tarjetas ficticias activa el checkbox de <strong>Modo Pruebas / Sandbox</strong> arriba.</em>
-          </p>
-          <div class="test-cards-grid">
-            <div class="test-card-item">
-              <strong>Mastercard:</strong> <code>5031 7557 3453 0604</code> | CVV: <code>123</code> | Exp: <code>11/30</code>
-            </div>
-            <div class="test-card-item">
-              <strong>Visa:</strong> <code>4009 1753 3280 6176</code> | CVV: <code>123</code> | Exp: <code>11/30</code>
-            </div>
-            <div class="test-card-item">
-              <strong>Amex:</strong> <code>3711 803032 57522</code> | CVV: <code>1234</code> | Exp: <code>11/30</code>
-            </div>
-          </div>
-          <div class="test-account-note">
-            👤 <strong>Usuario Comprador Prueba:</strong> <code>TESTUSER6121762178157356297</code> | Clave: <code>It6x2ey9ZZ</code>
-          </div>
-        </div>
-      </div>
-
       <div class="mp-security-note">
-        🔒 Transacción segura encriptada. Serás redirigido al Checkout Pro oficial de Mercado Pago ({{ isSandboxMode ? 'Entorno Sandbox de Pruebas' : 'Entorno Producción Real' }}).
+        🔒 Transacción protegida y encriptada por Mercado Pago. Serás redirigido al Checkout Pro oficial para completar tu pago de forma 100% segura.
       </div>
 
       <button class="btn-mp-checkout" (click)="payWithMercadoPago()" [disabled]="isProcessingPayment">
         <span *ngIf="!isProcessingPayment">
-          {{ isSandboxMode ? '🧪 Probar Pago Sandbox (US$ ' + totalAmount + ') ➔' : 'Pagar US$ ' + totalAmount + ' en Mercado Pago ➔' }}
+          Pagar US$ {{ totalAmount }} con Mercado Pago ➔
         </span>
-        <span *ngIf="isProcessingPayment" class="loading-spinner">⏳ Generando preferencia de pago...</span>
+        <span *ngIf="isProcessingPayment" class="loading-spinner">⏳ Generando pasarela de pago...</span>
       </button>
     </div>
   </div>

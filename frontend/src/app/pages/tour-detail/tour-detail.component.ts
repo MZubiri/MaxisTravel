@@ -20,14 +20,12 @@ export class TourDetailComponent implements OnInit {
   // Booking & Payment state
   passengers = 1;
   travelDate = '';
-  buyerName = 'Comprador Prueba';
-  buyerEmail = 'testuser@maxistravel.com';
-  buyerPhone = '920698122';
+  buyerName = '';
+  buyerEmail = '';
+  buyerPhone = '';
   
   showPaymentModal = false;
   isProcessingPayment = false;
-  showTestCredentials = false;
-  isSandboxMode = false; // Toggle between Live Production and Test Sandbox
 
   constructor(
     private route: ActivatedRoute, 
@@ -77,15 +75,17 @@ export class TourDetailComponent implements OnInit {
     }
   }
 
-  toggleTestCredentials() {
-    this.showTestCredentials = !this.showTestCredentials;
-    if (this.showTestCredentials) {
-      this.isSandboxMode = true; // Automatically enable Sandbox mode when test credentials panel is opened
-    }
-  }
-
   payWithMercadoPago() {
     if (this.isProcessingPayment) return;
+
+    if (!this.buyerName.trim()) {
+      alert('Por favor ingrese su nombre completo para la reserva.');
+      return;
+    }
+    if (!this.buyerEmail.trim() || !this.buyerEmail.includes('@')) {
+      alert('Por favor ingrese un correo electrónico válido para enviarle la confirmación.');
+      return;
+    }
 
     this.isProcessingPayment = true;
 
@@ -96,19 +96,16 @@ export class TourDetailComponent implements OnInit {
       passengers: this.passengers,
       totalAmount: this.totalAmount,
       currency: 'USD',
-      buyerName: this.buyerName,
-      buyerEmail: this.buyerEmail,
-      buyerPhone: this.buyerPhone,
+      buyerName: this.buyerName.trim(),
+      buyerEmail: this.buyerEmail.trim(),
+      buyerPhone: this.buyerPhone.trim(),
       travelDate: this.travelDate
     };
 
     this.paymentService.createMercadoPagoPreference(req).subscribe({
       next: (res) => {
         this.isProcessingPayment = false;
-        // If Sandbox Mode is selected or test credentials opened, use sandboxInitPoint
-        const checkoutUrl = (this.isSandboxMode && res.sandboxInitPoint) 
-          ? res.sandboxInitPoint 
-          : (res.initPoint || res.sandboxInitPoint);
+        const checkoutUrl = res.initPoint || res.sandboxInitPoint;
 
         if (checkoutUrl) {
           window.location.href = checkoutUrl;

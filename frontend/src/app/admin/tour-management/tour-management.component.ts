@@ -48,7 +48,7 @@ import { Tour, TourItinerary } from '../../core/models/tour.model';
           <tbody>
             <tr *ngFor="let t of filteredTours">
               <td class="img-td">
-                <img [src]="t.imageUrl || 'assets/images/logo.jpeg'" [alt]="t.name" class="table-img">
+                <img [src]="t.imageUrl || '/assets/images/logo.jpeg'" [alt]="t.name" class="table-img">
               </td>
               <td class="name-td">
                 <strong>{{ t.name }}</strong>
@@ -159,7 +159,7 @@ import { Tour, TourItinerary } from '../../core/models/tour.model';
                     (change)="onTourImageSelected($event)" 
                     style="display: none">
                   <div class="upload-dropzone" (click)="tourFileInput.click()">
-                    <img [src]="currentTour.imageUrl || 'assets/images/logo.jpeg'" class="preview-img">
+                    <img [src]="currentTour.imageUrl || '/assets/images/logo.jpeg'" class="preview-img">
                     <div class="upload-prompt">
                       <span>📁 Haz clic para subir foto desde tu equipo</span>
                       <span class="upload-sub">Formatos soportados: JPG, PNG, WEBP</span>
