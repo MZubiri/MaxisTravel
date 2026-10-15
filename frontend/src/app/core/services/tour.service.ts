@@ -321,6 +321,7 @@ export class TourService {
 
   private mapDtoToTour(dto: any, lang = this.i18n.currentLang()): Tour {
     const trans = dto.translations?.find((tr: any) => tr.languageCode === lang) || dto.translations?.[0] || {};
+    const transEn = dto.translations?.find((tr: any) => tr.languageCode === 'en');
     const primaryImg = dto.images?.find((img: any) => img.isPrimary)?.imageUrl || dto.images?.[0]?.imageUrl;
     
     return {
@@ -330,6 +331,9 @@ export class TourService {
       price: dto.price || 0,
       description: trans.shortDescription || '',
       fullDescription: trans.fullDescription || '',
+      nameEn: transEn?.title,
+      descriptionEn: transEn?.shortDescription,
+      fullDescriptionEn: transEn?.fullDescription,
       duration: dto.duration || '',
       difficulty: dto.difficultyLevel || 'Fácil',
       type: dto.tourType || 'Cultural',
@@ -351,6 +355,26 @@ export class TourService {
   }
 
   private mapTourToCreateDto(tour: Tour): any {
+    const translations: any[] = [
+      {
+        languageCode: 'es',
+        title: tour.name,
+        shortDescription: tour.description,
+        fullDescription: tour.fullDescription || tour.description,
+        whatToBring: (tour.whatToBring || []).join('\n')
+      }
+    ];
+
+    if (tour.nameEn || tour.descriptionEn || tour.fullDescriptionEn) {
+      translations.push({
+        languageCode: 'en',
+        title: tour.nameEn || tour.name,
+        shortDescription: tour.descriptionEn || tour.description,
+        fullDescription: tour.fullDescriptionEn || tour.fullDescription || tour.description,
+        whatToBring: (tour.whatToBring || []).join('\n')
+      });
+    }
+
     return {
       slug: tour.slug,
       price: tour.price,
@@ -363,15 +387,7 @@ export class TourService {
       modality: tour.modality || 'Grupo Compartido',
       isPublished: tour.isPublished,
       sortOrder: 1,
-      translations: [
-        {
-          languageCode: 'es',
-          title: tour.name,
-          shortDescription: tour.description,
-          fullDescription: tour.fullDescription || tour.description,
-          whatToBring: (tour.whatToBring || []).join('\n')
-        }
-      ],
+      translations: translations,
       itineraries: (tour.itinerary || []).map((it, idx) => ({
         timeSlot: it.time,
         titleEs: it.title,

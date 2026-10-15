@@ -180,6 +180,27 @@ import { Tour, TourItinerary } from '../../core/models/tour.model';
               </div>
             </div>
 
+            <!-- SECTION: TRADUCCIÓN AL INGLÉS (OPCIONAL) -->
+            <div class="section-box" style="border-left: 4px solid #3B82F6;">
+              <h4 class="section-box-title">🇬🇧 Traducción en Inglés (Opcional)</h4>
+              <p class="section-sub">Si completas estos campos, los turistas que cambien la web a inglés verán el tour traducido.</p>
+              
+              <div class="form-group">
+                <label>Nombre del Tour en Inglés</label>
+                <input type="text" [(ngModel)]="currentTour.nameEn" name="nameEn" class="form-input" placeholder="Ej. Sacred Valley of the Incas – Full Day">
+              </div>
+
+              <div class="form-group">
+                <label>Descripción Corta en Inglés</label>
+                <textarea [(ngModel)]="currentTour.descriptionEn" name="descriptionEn" rows="2" class="form-input" placeholder="Brief summary in English..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label>Descripción Detallada en Inglés</label>
+                <textarea [(ngModel)]="currentTour.fullDescriptionEn" name="fullDescriptionEn" rows="3" class="form-input" placeholder="Full details in English..."></textarea>
+              </div>
+            </div>
+
             <!-- SECTION: ITINERARIO (PUNTOS A VISITAR) -->
             <div class="section-box">
               <div class="section-box-header">
@@ -917,6 +938,9 @@ export class TourManagementComponent implements OnInit {
       price: 40,
       description: '',
       fullDescription: '',
+      nameEn: '',
+      descriptionEn: '',
+      fullDescriptionEn: '',
       duration: 'Full Day',
       difficulty: 'Fácil',
       type: 'Cultural',

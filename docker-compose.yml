@@ -37,6 +37,10 @@ services:
       - JwtSettings__Issuer=MaxisTravel
       - JwtSettings__Audience=MaxisTravelApp
       - JwtSettings__ExpirationMinutes=480
+      - MercadoPagoSettings__PublicKey=${MP_PUBLIC_KEY:-APP_USR-34d6e223-2266-4ade-ab48-feb3064fa79b}
+      - MercadoPagoSettings__AccessToken=${MP_ACCESS_TOKEN:-APP_USR-5352056971681212-090321-1118220f55a88fe40544f52301a25727-3656504962}
+      - MercadoPagoSettings__ClientId=${MP_CLIENT_ID:-5352056971681212}
+      - MercadoPagoSettings__ClientSecret=${MP_CLIENT_SECRET:-VigUuS6tFv2cMprY35lrUKdbOqaxzuxf}
     depends_on:
       mysql:
         condition: service_healthy

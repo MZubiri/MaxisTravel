@@ -62,7 +62,7 @@ export class PaymentService {
           preferenceId: `demo-${Date.now()}`,
           initPoint: demoUrl,
           sandboxInitPoint: demoUrl,
-          publicKey: environment.mercadoPagoPublicKey || 'APP_USR-07d0d64a-6428-427f-b42a-e64a80b453da'
+          publicKey: environment.mercadoPagoPublicKey || 'APP_USR-34d6e223-2266-4ade-ab48-feb3064fa79b'
         });
       })
     );

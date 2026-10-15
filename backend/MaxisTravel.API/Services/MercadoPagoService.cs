@@ -45,12 +45,12 @@ namespace MaxisTravel.API.Services
 
         public string GetPublicKey()
         {
-            return _configuration["MercadoPagoSettings:PublicKey"] ?? "APP_USR-07d0d64a-6428-427f-b42a-e64a80b453da";
+            return _configuration["MercadoPagoSettings:PublicKey"] ?? "APP_USR-34d6e223-2266-4ade-ab48-feb3064fa79b";
         }
 
         public async Task<PaymentPreferenceResponseDto> CreatePreferenceAsync(PaymentRequestDto request, string originUrl)
         {
-            var accessToken = _configuration["MercadoPagoSettings:AccessToken"] ?? "APP_USR-532959237425442-101514-67ff9879f1cc784837bd2197ca2bf715-3739838376";
+            var accessToken = _configuration["MercadoPagoSettings:AccessToken"] ?? "APP_USR-5352056971681212-090321-1118220f55a88fe40544f52301a25727-3656504962";
             var publicKey = GetPublicKey();
 
             // Enforce HTTPS base URL for Mercado Pago auto_return requirement
@@ -139,7 +139,7 @@ namespace MaxisTravel.API.Services
         {
             try
             {
-                var accessToken = _configuration["MercadoPagoSettings:AccessToken"] ?? "APP_USR-532959237425442-101514-67ff9879f1cc784837bd2197ca2bf715-3739838376";
+                var accessToken = _configuration["MercadoPagoSettings:AccessToken"] ?? "APP_USR-5352056971681212-090321-1118220f55a88fe40544f52301a25727-3656504962";
                 var httpRequest = new HttpRequestMessage(HttpMethod.Get, $"https://api.mercadopago.com/v1/payments/{paymentId}");
                 httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
