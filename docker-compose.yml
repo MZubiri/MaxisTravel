@@ -42,11 +42,14 @@ services:
         condition: service_healthy
     volumes:
       - uploads:/app/uploads
+    expose:
+      - "8080"
     networks:
       - maxis-network
       - coolify
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=coolify"
       - "traefik.http.routers.maxis-api-prod.rule=(Host(`maxistravel.com`) || Host(`www.maxistravel.com`)) && PathPrefix(`/api`)"
       - "traefik.http.routers.maxis-api-prod.entrypoints=http,https"
       - "traefik.http.routers.maxis-api-prod.tls=true"
@@ -64,11 +67,14 @@ services:
     restart: unless-stopped
     depends_on:
       - backend
+    expose:
+      - "80"
     networks:
       - maxis-network
       - coolify
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=coolify"
       - "traefik.http.routers.maxis-web-prod.rule=Host(`maxistravel.com`) || Host(`www.maxistravel.com`)"
       - "traefik.http.routers.maxis-web-prod.entrypoints=http,https"
       - "traefik.http.routers.maxis-web-prod.tls=true"
