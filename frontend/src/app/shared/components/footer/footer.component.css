@@ -15,9 +15,13 @@
 }
 
 .footer-logo {
-  width: 130px;
+  width: 140px;
+  background: #ffffff;
+  padding: 6px 10px;
   border-radius: 8px;
   margin-bottom: var(--spacing-md);
+  object-fit: contain;
+  display: block;
 }
 
 .footer-col h3 {

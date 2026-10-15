@@ -33,18 +33,28 @@
   gap: 12px;
 }
 
+.logo-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  padding: 3px 6px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
 .logo-badge img {
-  height: 48px;
-  width: 48px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 2px solid var(--color-accent);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  height: 44px;
+  width: auto;
+  max-width: 90px;
+  object-fit: contain;
+  border-radius: 4px;
   transition: transform 0.3s ease;
 }
 
 .logo:hover .logo-badge img {
-  transform: scale(1.08);
+  transform: scale(1.05);
 }
 
 .logo-text {
