@@ -31,7 +31,7 @@ namespace MaxisTravel.API.DTOs
         public string Title { get; set; } = null!;
         public string ShortDescription { get; set; } = null!;
         public string FullDescription { get; set; } = null!;
-        public string WhatToBring { get; set; } = null!;
+        public string WhatToBring { get; set; } = string.Empty;
     }
 
     public class TourItineraryDto

@@ -44,7 +44,7 @@ namespace MaxisTravel.API.Controllers
         public async Task<IActionResult> CreateTour([FromBody] TourCreateDto dto)
         {
             var tour = await _tourService.CreateTourAsync(dto);
-            return CreatedAtAction(nameof(GetTourBySlug), new { slug = tour.Slug }, tour);
+            return Ok(tour);
         }
 
         [Authorize(Roles = "Admin")]

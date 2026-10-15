@@ -109,7 +109,59 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    context.Database.EnsureCreated(); // Or context.Database.Migrate(); depending on dev preference
+    context.Database.EnsureCreated();
+
+    try
+    {
+        await context.Database.ExecuteSqlRawAsync(@"
+            CREATE TABLE IF NOT EXISTS `Bookings` (
+                `Id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                `TourId` VARCHAR(100) NOT NULL,
+                `TourName` VARCHAR(255) NOT NULL,
+                `CustomerName` VARCHAR(255) NOT NULL,
+                `CustomerEmail` VARCHAR(255) NOT NULL,
+                `CustomerPhone` VARCHAR(50) NOT NULL,
+                `TravelDate` VARCHAR(50) NOT NULL,
+                `Passengers` INT NOT NULL DEFAULT 1,
+                `TotalAmount` DECIMAL(18, 2) NOT NULL,
+                `Currency` VARCHAR(10) NOT NULL DEFAULT 'USD',
+                `PreferenceId` VARCHAR(255) NOT NULL,
+                `PaymentId` VARCHAR(100) NULL,
+                `Status` VARCHAR(50) NOT NULL DEFAULT 'Pending',
+                `PaymentMethod` VARCHAR(100) NULL,
+                `ExternalReference` VARCHAR(255) NULL,
+                `CreatedAt` DATETIME(6) NOT NULL,
+                `UpdatedAt` DATETIME(6) NULL
+            ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+    }
+    catch
+    {
+        try
+        {
+            await context.Database.ExecuteSqlRawAsync(@"
+                CREATE TABLE IF NOT EXISTS Bookings (
+                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    TourId TEXT NOT NULL,
+                    TourName TEXT NOT NULL,
+                    CustomerName TEXT NOT NULL,
+                    CustomerEmail TEXT NOT NULL,
+                    CustomerPhone TEXT NOT NULL,
+                    TravelDate TEXT NOT NULL,
+                    Passengers INTEGER NOT NULL,
+                    TotalAmount TEXT NOT NULL,
+                    Currency TEXT NOT NULL,
+                    PreferenceId TEXT NOT NULL,
+                    PaymentId TEXT NULL,
+                    Status TEXT NOT NULL,
+                    PaymentMethod TEXT NULL,
+                    ExternalReference TEXT NULL,
+                    CreatedAt TEXT NOT NULL,
+                    UpdatedAt TEXT NULL
+                );");
+        }
+        catch { }
+    }
+
     await DataSeeder.SeedAsync(context);
 }
 

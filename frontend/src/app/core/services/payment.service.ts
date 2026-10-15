@@ -54,18 +54,7 @@ export class PaymentService {
   constructor(private http: HttpClient) {}
 
   createMercadoPagoPreference(req: PaymentRequest): Observable<PaymentPreferenceResponse> {
-    return this.http.post<PaymentPreferenceResponse>(`${this.apiUrl}/create-preference`, req).pipe(
-      catchError(err => {
-        console.warn('Backend payment endpoint error, fallback to client preference URL generation:', err);
-        const demoUrl = `https://www.mercadopago.com.pe/checkout/v1/redirect?pref_id=demo-${Date.now()}`;
-        return of({
-          preferenceId: `demo-${Date.now()}`,
-          initPoint: demoUrl,
-          sandboxInitPoint: demoUrl,
-          publicKey: environment.mercadoPagoPublicKey || 'APP_USR-34d6e223-2266-4ade-ab48-feb3064fa79b'
-        });
-      })
-    );
+    return this.http.post<PaymentPreferenceResponse>(`${this.apiUrl}/create-preference`, req);
   }
 
   getAdminBookings(status?: string): Observable<Booking[]> {

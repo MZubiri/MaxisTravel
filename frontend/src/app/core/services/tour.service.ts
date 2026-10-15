@@ -190,10 +190,8 @@ export class TourService {
   }
 
   addTour(tour: Tour): Observable<Tour> {
-    const current = this.toursSignal();
     const newTour: Tour = {
       ...tour,
-      id: (current.length + 1).toString(),
       slug: tour.slug || tour.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
       isPublished: tour.isPublished !== undefined ? tour.isPublished : true,
       imageUrl: tour.imageUrl || 'assets/images/tours/city-tour/city-tour-001.jpeg'
@@ -201,17 +199,12 @@ export class TourService {
 
     const payload = this.mapTourToCreateDto(newTour);
     return this.api.post<any>('/admin/tours', payload).pipe(
-      tap(created => {
-        if (created && created.id) newTour.id = created.id.toString();
-        const updated = [newTour, ...this.toursSignal()];
+      map(created => {
+        const mapped = created ? this.mapDtoToTour(created) : newTour;
+        const updated = [mapped, ...this.toursSignal().filter(t => t.slug !== mapped.slug)];
         this.toursSignal.set(updated);
         this.saveLocal();
-      }),
-      catchError(() => {
-        const updated = [newTour, ...current];
-        this.toursSignal.set(updated);
-        this.saveLocal();
-        return of(newTour);
+        return mapped;
       })
     );
   }
@@ -227,18 +220,13 @@ export class TourService {
     if (!isNaN(numId)) {
       const payload = { ...this.mapTourToCreateDto(updatedTour), id: numId };
       return this.api.put<any>(`/admin/tours/${numId}`, payload).pipe(
-        tap(() => {
+        map(res => {
+          const mapped = res ? this.mapDtoToTour(res) : updatedTour;
           const list = [...this.toursSignal()];
-          list[index] = updatedTour;
+          list[index] = mapped;
           this.toursSignal.set(list);
           this.saveLocal();
-        }),
-        catchError(() => {
-          const list = [...current];
-          list[index] = updatedTour;
-          this.toursSignal.set(list);
-          this.saveLocal();
-          return of(updatedTour);
+          return mapped;
         })
       );
     }
@@ -355,13 +343,17 @@ export class TourService {
   }
 
   private mapTourToCreateDto(tour: Tour): any {
+    const whatToBringText = (tour.whatToBring && tour.whatToBring.length > 0)
+      ? tour.whatToBring.join('\n')
+      : 'Ropa cómoda, calzado para caminar, agua y bloqueador solar.';
+
     const translations: any[] = [
       {
         languageCode: 'es',
         title: tour.name,
         shortDescription: tour.description,
         fullDescription: tour.fullDescription || tour.description,
-        whatToBring: (tour.whatToBring || []).join('\n')
+        whatToBring: whatToBringText
       }
     ];
 
@@ -371,7 +363,7 @@ export class TourService {
         title: tour.nameEn || tour.name,
         shortDescription: tour.descriptionEn || tour.description,
         fullDescription: tour.fullDescriptionEn || tour.fullDescription || tour.description,
-        whatToBring: (tour.whatToBring || []).join('\n')
+        whatToBring: whatToBringText
       });
     }
 

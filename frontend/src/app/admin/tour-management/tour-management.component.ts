@@ -832,14 +832,26 @@ export class TourManagementComponent implements OnInit {
 
   saveTour() {
     if (this.isEditing && this.currentTour.id) {
-      this.tourService.updateTour(this.currentTour.id, this.currentTour).subscribe(() => {
-        this.loadTours();
-        this.closeModal();
+      this.tourService.updateTour(this.currentTour.id, this.currentTour).subscribe({
+        next: () => {
+          this.loadTours();
+          this.closeModal();
+        },
+        error: (err) => {
+          console.error('Error al actualizar tour en el servidor:', err);
+          alert('Hubo un error al actualizar el tour en el servidor. Verifique los campos obligatorios.');
+        }
       });
     } else {
-      this.tourService.addTour(this.currentTour).subscribe(() => {
-        this.loadTours();
-        this.closeModal();
+      this.tourService.addTour(this.currentTour).subscribe({
+        next: () => {
+          this.loadTours();
+          this.closeModal();
+        },
+        error: (err) => {
+          console.error('Error al registrar tour en el servidor:', err);
+          alert('Hubo un error al guardar el nuevo tour en el servidor. Verifique que el título y precio sean válidos.');
+        }
       });
     }
   }

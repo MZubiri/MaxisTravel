@@ -54,27 +54,34 @@ namespace MaxisTravel.API.Controllers
                 var result = await _mercadoPagoService.CreatePreferenceAsync(request, originUrl);
 
                 // Persist the reservation as Pending in the database
-                var booking = new Booking
+                try
                 {
-                    TourId = request.TourId ?? "tour-general",
-                    TourName = request.TourName ?? "Tour Cusco",
-                    CustomerName = string.IsNullOrWhiteSpace(request.BuyerName) ? "Pasajero Maxis" : request.BuyerName,
-                    CustomerEmail = request.BuyerEmail ?? "",
-                    CustomerPhone = request.BuyerPhone ?? "",
-                    TravelDate = request.TravelDate ?? DateTime.UtcNow.ToString("yyyy-MM-dd"),
-                    Passengers = request.Passengers > 0 ? request.Passengers : 1,
-                    TotalAmount = request.TotalAmount,
-                    Currency = string.IsNullOrWhiteSpace(request.Currency) ? "USD" : request.Currency.ToUpper(),
-                    PreferenceId = result.PreferenceId,
-                    ExternalReference = result.ExternalReference,
-                    Status = "Pending",
-                    CreatedAt = DateTime.UtcNow
-                };
+                    var booking = new Booking
+                    {
+                        TourId = request.TourId ?? "tour-general",
+                        TourName = request.TourName ?? "Tour Cusco",
+                        CustomerName = string.IsNullOrWhiteSpace(request.BuyerName) ? "Pasajero Maxis" : request.BuyerName,
+                        CustomerEmail = request.BuyerEmail ?? "",
+                        CustomerPhone = request.BuyerPhone ?? "",
+                        TravelDate = request.TravelDate ?? DateTime.UtcNow.ToString("yyyy-MM-dd"),
+                        Passengers = request.Passengers > 0 ? request.Passengers : 1,
+                        TotalAmount = request.TotalAmount,
+                        Currency = string.IsNullOrWhiteSpace(request.Currency) ? "USD" : request.Currency.ToUpper(),
+                        PreferenceId = result.PreferenceId,
+                        ExternalReference = result.ExternalReference,
+                        Status = "Pending",
+                        CreatedAt = DateTime.UtcNow
+                    };
 
-                await _context.Bookings.AddAsync(booking);
-                await _context.SaveChangesAsync();
+                    await _context.Bookings.AddAsync(booking);
+                    await _context.SaveChangesAsync();
 
-                _logger.LogInformation($"Reserva #{booking.Id} creada en estado Pendiente para '{booking.TourName}' (Ref: {booking.ExternalReference})");
+                    _logger.LogInformation($"Reserva #{booking.Id} creada en estado Pendiente para '{booking.TourName}' (Ref: {booking.ExternalReference})");
+                }
+                catch (Exception dbEx)
+                {
+                    _logger.LogError(dbEx, "Advertencia: Error guardando reserva en base de datos local, pero la pasarela de Mercado Pago fue generada con éxito.");
+                }
 
                 return Ok(result);
             }
