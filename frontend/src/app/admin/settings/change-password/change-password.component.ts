@@ -153,6 +153,7 @@ export class ChangePasswordComponent {
   confirmPassword = '';
   successMessage = '';
   errorMessage = '';
+  isSubmitting = false;
 
   constructor(private authService: AuthService) {}
 
@@ -170,11 +171,21 @@ export class ChangePasswordComponent {
       return;
     }
 
-    // Update password locally
-    localStorage.setItem('maxis_admin_password', this.newPassword);
-    this.successMessage = '¡Contraseña de administración actualizada correctamente!';
-    this.currentPassword = '';
-    this.newPassword = '';
-    this.confirmPassword = '';
+    this.isSubmitting = true;
+    this.authService.changePassword(this.currentPassword, this.newPassword).subscribe({
+      next: (res) => {
+        this.isSubmitting = false;
+        this.successMessage = res?.message || '¡Contraseña de administración actualizada correctamente en la base de datos!';
+        this.currentPassword = '';
+        this.newPassword = '';
+        this.confirmPassword = '';
+      },
+      error: (err) => {
+        this.isSubmitting = false;
+        const msg = err.error?.message || 'Error al actualizar contraseña. Verifica que la contraseña actual sea la correcta.';
+        this.errorMessage = msg;
+      }
+    });
   }
 }
+

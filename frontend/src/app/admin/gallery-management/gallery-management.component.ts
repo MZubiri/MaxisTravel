@@ -256,22 +256,45 @@ export class GalleryManagementComponent implements OnInit {
   }
 
   onFilesSelected(event: Event) {
-    const files = (event.target as HTMLInputElement).files;
+    const input = event.target as HTMLInputElement;
+    const files = input.files;
     if (!files || files.length === 0) return;
 
-    const dataUrls: string[] = [];
-    let loaded = 0;
+    const fileList = Array.from(files);
+    const uploadedUrls: string[] = [];
+    let processed = 0;
 
-    Array.from(files).forEach(file => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        dataUrls.push(reader.result as string);
-        loaded++;
-        if (loaded === files.length) {
-          this.galleryService.addPhotos(dataUrls).subscribe(() => this.loadPhotos());
+    fileList.forEach(file => {
+      this.galleryService.uploadFile(file).subscribe({
+        next: (res) => {
+          if (res && res.url) {
+            uploadedUrls.push(res.url);
+          }
+          processed++;
+          if (processed === fileList.length) {
+            this.finishUpload(uploadedUrls, input);
+          }
+        },
+        error: () => {
+          // Fallback to local data URL if backend is offline
+          const reader = new FileReader();
+          reader.onload = () => {
+            uploadedUrls.push(reader.result as string);
+            processed++;
+            if (processed === fileList.length) {
+              this.finishUpload(uploadedUrls, input);
+            }
+          };
+          reader.readAsDataURL(file);
         }
-      };
-      reader.readAsDataURL(file);
+      });
     });
+  }
+
+  private finishUpload(urls: string[], input: HTMLInputElement) {
+    if (urls.length > 0) {
+      this.galleryService.addPhotos(urls).subscribe(() => this.loadPhotos());
+    }
+    input.value = '';
   }
 }

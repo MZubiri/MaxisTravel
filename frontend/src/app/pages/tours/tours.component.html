@@ -4,6 +4,40 @@
 </div>
 
 <div class="container section-padding">
+  <!-- Payment Status Banner -->
+  <div *ngIf="paymentStatus" class="payment-alert-card" [class]="'payment-' + paymentStatus">
+    <div class="alert-icon">
+      <span *ngIf="paymentStatus === 'approved'">🎉</span>
+      <span *ngIf="paymentStatus === 'pending'">⏳</span>
+      <span *ngIf="paymentStatus === 'failure'">⚠️</span>
+    </div>
+    <div class="alert-content">
+      <h3 *ngIf="paymentStatus === 'approved'">¡Pago Confirmado con Éxito!</h3>
+      <h3 *ngIf="paymentStatus === 'pending'">Pago en Proceso de Acreditación</h3>
+      <h3 *ngIf="paymentStatus === 'failure'">No pudimos procesar tu pago</h3>
+
+      <p *ngIf="paymentStatus === 'approved'">
+        Tu reserva a través de <strong>Mercado Pago</strong> ha sido procesada exitosamente. Un asesor de MaxisTravel te contactará por WhatsApp para coordinar los detalles de recogida y bienvenida.
+      </p>
+      <p *ngIf="paymentStatus === 'pending'">
+        Mercado Pago está validando la transacción. Te notificaremos a tu correo en cuanto se acredite el monto.
+      </p>
+      <p *ngIf="paymentStatus === 'failure'">
+        La transacción no se completó. Puedes intentar nuevamente con otra tarjeta o reservar directamente comunicándote con nuestro equipo por WhatsApp.
+      </p>
+
+      <div class="alert-actions">
+        <a href="https://wa.me/51920698122?text=Hola%20MaxisTravel,%20acabo%20de%20realizar%20un%20pago%20en%20la%20web" 
+           target="_blank" 
+           class="btn-alert-wa">
+          💬 Contactar por WhatsApp
+        </a>
+        <button class="btn-alert-close" (click)="dismissPaymentStatus()">Cerrar</button>
+      </div>
+    </div>
+    <button class="btn-dismiss-corner" (click)="dismissPaymentStatus()">✕</button>
+  </div>
+
   <div class="filter-bar">
     <button *ngFor="let filter of filters" 
             class="filter-btn" 

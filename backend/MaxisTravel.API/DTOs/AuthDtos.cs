@@ -15,4 +15,11 @@ namespace MaxisTravel.API.DTOs
         public string FullName { get; set; } = null!;
         public DateTime ExpiresAt { get; set; }
     }
+
+    public class ChangePasswordDto
+    {
+        public string CurrentPassword { get; set; } = null!;
+        public string NewPassword { get; set; } = null!;
+    }
 }
+

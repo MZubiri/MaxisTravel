@@ -86,6 +86,20 @@
   font-size: 1.1rem;
 }
 
+.nav-with-badge {
+  justify-content: space-between;
+}
+
+.sidebar-badge {
+  background: #EF4444;
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-left: auto;
+}
+
 .sidebar-footer {
   padding: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);

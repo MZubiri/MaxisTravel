@@ -14,6 +14,7 @@ namespace MaxisTravel.API.Services
     public interface IAuthService
     {
         Task<LoginResponseDto?> LoginAsync(LoginDto dto);
+        Task<(bool success, string message)> ChangePasswordAsync(string username, ChangePasswordDto dto);
     }
 
     public class AuthService : IAuthService
@@ -61,6 +62,30 @@ namespace MaxisTravel.API.Services
                 FullName = user.FullName,
                 ExpiresAt = tokenDescriptor.Expires.Value
             };
+        }
+
+        public async Task<(bool success, string message)> ChangePasswordAsync(string username, ChangePasswordDto dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.NewPassword) || dto.NewPassword.Length < 6)
+            {
+                return (false, "La nueva contraseña debe tener al menos 6 caracteres.");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            if (user == null)
+            {
+                return (false, "Usuario no encontrado.");
+            }
+
+            if (!BCrypt.Net.BCrypt.Verify(dto.CurrentPassword, user.PasswordHash))
+            {
+                return (false, "La contraseña actual es incorrecta.");
+            }
+
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
+            await _context.SaveChangesAsync();
+
+            return (true, "Contraseña actualizada exitosamente.");
         }
     }
 }

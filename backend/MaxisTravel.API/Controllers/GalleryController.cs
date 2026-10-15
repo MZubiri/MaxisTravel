@@ -21,9 +21,20 @@ namespace MaxisTravel.API.Controllers
         [HttpPost("upload")]
         public async Task<IActionResult> UploadImage(IFormFile file)
         {
-            var url = await _imageService.UploadImageAsync(file);
-            if (url == null) return BadRequest("File is empty");
-            return Ok(new { url });
+            try
+            {
+                var url = await _imageService.UploadImageAsync(file);
+                if (url == null) return BadRequest(new { message = "El archivo está vacío." });
+                return Ok(new { url });
+            }
+            catch (System.ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(500, new { message = "Error al procesar la imagen.", detail = ex.Message });
+            }
         }
 
         [HttpDelete]

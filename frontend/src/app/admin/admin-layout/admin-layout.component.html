@@ -12,8 +12,17 @@
       <a routerLink="/admin/dashboard" routerLinkActive="active">
         <span class="nav-icon">📊</span> Dashboard
       </a>
+      <a routerLink="/admin/reservas" routerLinkActive="active">
+        <span class="nav-icon">💳</span> Reservas & Pagos
+      </a>
       <a routerLink="/admin/tours" routerLinkActive="active">
         <span class="nav-icon">🗺️</span> Gestión de Tours
+      </a>
+      <a routerLink="/admin/mensajes" routerLinkActive="active" class="nav-with-badge">
+        <span class="nav-icon">📬</span> Mensajes & Consultas
+        <span class="sidebar-badge" *ngIf="contactService.unreadCount() > 0">
+          {{ contactService.unreadCount() }}
+        </span>
       </a>
       <a routerLink="/admin/galeria" routerLinkActive="active">
         <span class="nav-icon">🖼️</span> Galería & Carrusel

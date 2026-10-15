@@ -43,6 +43,10 @@ export class AuthService {
     );
   }
 
+  changePassword(currentPassword: string, newPassword: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/change-password`, { currentPassword, newPassword });
+  }
+
   logout() {
     localStorage.removeItem('maxis_token');
     localStorage.removeItem('maxis_user');

@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { ApiService } from './api.service';
 import { Tour } from '../models/tour.model';
-import { Observable, of, tap, catchError } from 'rxjs';
+import { Observable, of, tap, catchError, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -121,18 +121,66 @@ export class TourService {
       this.toursSignal.set(this.initialTours);
       this.saveLocal();
     }
+
+    this.refreshFromApi();
+  }
+
+  private refreshFromApi() {
+    this.api.get<any[]>('/tours').pipe(
+      tap(dtoList => {
+        if (dtoList && dtoList.length > 0) {
+          const mapped = dtoList.map(dto => this.mapDtoToTour(dto));
+          this.toursSignal.set(mapped);
+          this.saveLocal();
+        }
+      }),
+      catchError(() => of(null))
+    ).subscribe();
   }
 
   getTours(): Observable<Tour[]> {
-    return of(this.toursSignal().filter(t => t.isPublished));
+    return this.api.get<any[]>('/tours').pipe(
+      tap(dtoList => {
+        if (dtoList && dtoList.length > 0) {
+          const mapped = dtoList.map(dto => this.mapDtoToTour(dto));
+          this.toursSignal.set(mapped);
+          this.saveLocal();
+        }
+      }),
+      catchError(() => of(this.toursSignal().filter(t => t.isPublished))),
+      tap(() => {}),
+      catchError(() => of(this.toursSignal().filter(t => t.isPublished)))
+    );
   }
 
   getAllToursAdmin(): Observable<Tour[]> {
-    return of(this.toursSignal());
+    return this.api.get<any[]>('/admin/tours').pipe(
+      tap(dtoList => {
+        if (dtoList && dtoList.length > 0) {
+          const mapped = dtoList.map(dto => this.mapDtoToTour(dto));
+          this.toursSignal.set(mapped);
+          this.saveLocal();
+        }
+      }),
+      catchError(() => of(this.toursSignal()))
+    );
   }
 
   getTourBySlug(slug: string): Observable<Tour | undefined> {
-    return of(this.toursSignal().find(t => t.slug === slug));
+    return this.api.get<any>(`/tours/${slug}`).pipe(
+      tap(dto => {
+        if (dto) {
+          const mapped = this.mapDtoToTour(dto);
+          const current = this.toursSignal();
+          const idx = current.findIndex(t => t.slug === slug);
+          if (idx !== -1) current[idx] = mapped;
+          else current.push(mapped);
+          this.toursSignal.set([...current]);
+          this.saveLocal();
+        }
+      }),
+      catchError(() => of(this.toursSignal().find(t => t.slug === slug)))
+    );
   }
 
   addTour(tour: Tour): Observable<Tour> {
@@ -144,27 +192,77 @@ export class TourService {
       isPublished: tour.isPublished !== undefined ? tour.isPublished : true,
       imageUrl: tour.imageUrl || 'assets/images/tours/city-tour/city-tour-001.jpeg'
     };
-    const updated = [newTour, ...current];
-    this.toursSignal.set(updated);
-    this.saveLocal();
-    return of(newTour);
+
+    const payload = this.mapTourToCreateDto(newTour);
+    return this.api.post<any>('/admin/tours', payload).pipe(
+      tap(created => {
+        if (created && created.id) newTour.id = created.id.toString();
+        const updated = [newTour, ...this.toursSignal()];
+        this.toursSignal.set(updated);
+        this.saveLocal();
+      }),
+      catchError(() => {
+        const updated = [newTour, ...current];
+        this.toursSignal.set(updated);
+        this.saveLocal();
+        return of(newTour);
+      })
+    );
   }
 
   updateTour(id: string, updatedFields: Partial<Tour>): Observable<Tour | null> {
     const current = this.toursSignal();
     const index = current.findIndex(t => t.id === id);
-    if (index !== -1) {
-      const updatedTour = { ...current[index], ...updatedFields };
-      const updatedList = [...current];
-      updatedList[index] = updatedTour;
-      this.toursSignal.set(updatedList);
-      this.saveLocal();
-      return of(updatedTour);
+    if (index === -1) return of(null);
+
+    const updatedTour = { ...current[index], ...updatedFields };
+    const numId = parseInt(id, 10);
+
+    if (!isNaN(numId)) {
+      const payload = { ...this.mapTourToCreateDto(updatedTour), id: numId };
+      return this.api.put<any>(`/admin/tours/${numId}`, payload).pipe(
+        tap(() => {
+          const list = [...this.toursSignal()];
+          list[index] = updatedTour;
+          this.toursSignal.set(list);
+          this.saveLocal();
+        }),
+        catchError(() => {
+          const list = [...current];
+          list[index] = updatedTour;
+          this.toursSignal.set(list);
+          this.saveLocal();
+          return of(updatedTour);
+        })
+      );
     }
-    return of(null);
+
+    const updatedList = [...current];
+    updatedList[index] = updatedTour;
+    this.toursSignal.set(updatedList);
+    this.saveLocal();
+    return of(updatedTour);
   }
 
   deleteTour(id: string): Observable<boolean> {
+    const numId = parseInt(id, 10);
+    if (!isNaN(numId)) {
+      return this.api.delete(`/admin/tours/${numId}`).pipe(
+        tap(() => {
+          const filtered = this.toursSignal().filter(t => t.id !== id);
+          this.toursSignal.set(filtered);
+          this.saveLocal();
+        }),
+        map(() => true),
+        catchError(() => {
+          const filtered = this.toursSignal().filter(t => t.id !== id);
+          this.toursSignal.set(filtered);
+          this.saveLocal();
+          return of(true);
+        })
+      );
+    }
+
     const current = this.toursSignal();
     const filtered = current.filter(t => t.id !== id);
     this.toursSignal.set(filtered);
@@ -173,6 +271,36 @@ export class TourService {
   }
 
   togglePublish(id: string): Observable<boolean> {
+    const numId = parseInt(id, 10);
+    if (!isNaN(numId)) {
+      return this.api.patch(`/admin/tours/${numId}/toggle-publish`).pipe(
+        tap(() => {
+          const list = [...this.toursSignal()];
+          const idx = list.findIndex(t => t.id === id);
+          if (idx !== -1) {
+            list[idx].isPublished = !list[idx].isPublished;
+            this.toursSignal.set(list);
+            this.saveLocal();
+          }
+        }),
+        map(() => {
+          const item = this.toursSignal().find(t => t.id === id);
+          return item ? item.isPublished : false;
+        }),
+        catchError(() => {
+          const list = [...this.toursSignal()];
+          const idx = list.findIndex(t => t.id === id);
+          if (idx !== -1) {
+            list[idx].isPublished = !list[idx].isPublished;
+            this.toursSignal.set(list);
+            this.saveLocal();
+            return of(list[idx].isPublished);
+          }
+          return of(false);
+        })
+      );
+    }
+
     const current = this.toursSignal();
     const index = current.findIndex(t => t.id === id);
     if (index !== -1) {
@@ -183,6 +311,78 @@ export class TourService {
       return of(updatedList[index].isPublished);
     }
     return of(false);
+  }
+
+  private mapDtoToTour(dto: any): Tour {
+    const trans = dto.translations?.[0] || {};
+    const primaryImg = dto.images?.find((img: any) => img.isPrimary)?.imageUrl || dto.images?.[0]?.imageUrl;
+    
+    return {
+      id: dto.id?.toString(),
+      slug: dto.slug,
+      name: trans.title || dto.slug,
+      price: dto.price || 0,
+      description: trans.shortDescription || '',
+      fullDescription: trans.fullDescription || '',
+      duration: dto.duration || '',
+      difficulty: dto.difficultyLevel || 'Fácil',
+      type: dto.tourType || 'Cultural',
+      isPublished: dto.isPublished ?? true,
+      imageUrl: primaryImg || 'assets/images/tours/city-tour/city-tour-001.jpeg',
+      altitude: dto.maxAltitude,
+      schedule: dto.schedule,
+      modality: dto.modality,
+      itinerary: (dto.itineraries || []).map((i: any) => ({
+        time: i.timeSlot,
+        title: i.titleEs || i.titleEn || '',
+        description: i.descriptionEs || i.descriptionEn,
+        icon: i.icon || '📍'
+      })),
+      includes: (dto.inclusions || []).filter((i: any) => i.isIncluded).map((i: any) => i.textEs || i.textEn),
+      notIncludes: (dto.inclusions || []).filter((i: any) => !i.isIncluded).map((i: any) => i.textEs || i.textEn),
+      whatToBring: trans.whatToBring ? trans.whatToBring.split('\n').filter(Boolean) : []
+    };
+  }
+
+  private mapTourToCreateDto(tour: Tour): any {
+    return {
+      slug: tour.slug,
+      price: tour.price,
+      currency: 'USD',
+      duration: tour.duration,
+      difficultyLevel: tour.difficulty,
+      tourType: tour.type,
+      maxAltitude: tour.altitude,
+      schedule: tour.schedule || '09:00 - 17:00',
+      modality: tour.modality || 'Grupo Compartido',
+      isPublished: tour.isPublished,
+      sortOrder: 1,
+      translations: [
+        {
+          languageCode: 'es',
+          title: tour.name,
+          shortDescription: tour.description,
+          fullDescription: tour.fullDescription || tour.description,
+          whatToBring: (tour.whatToBring || []).join('\n')
+        }
+      ],
+      itineraries: (tour.itinerary || []).map((it, idx) => ({
+        timeSlot: it.time,
+        titleEs: it.title,
+        titleEn: it.title,
+        descriptionEs: it.description || '',
+        descriptionEn: it.description || '',
+        icon: it.icon || '📍',
+        sortOrder: idx + 1
+      })),
+      inclusions: [
+        ...(tour.includes || []).map((inc, idx) => ({ textEs: inc, textEn: inc, isIncluded: true, sortOrder: idx + 1 })),
+        ...(tour.notIncludes || []).map((nInc, idx) => ({ textEs: nInc, textEn: nInc, isIncluded: false, sortOrder: idx + 1 }))
+      ],
+      images: [
+        { imageUrl: tour.imageUrl || 'assets/images/tours/city-tour/city-tour-001.jpeg', altText: tour.name, sortOrder: 1, isPrimary: true }
+      ]
+    };
   }
 
   private saveLocal() {

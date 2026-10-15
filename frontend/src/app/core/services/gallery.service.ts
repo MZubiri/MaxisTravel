@@ -1,5 +1,7 @@
 import { Injectable, signal } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of, tap, catchError } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface GalleryPhoto {
   id: string;
@@ -10,6 +12,8 @@ export interface GalleryPhoto {
 
 @Injectable({ providedIn: 'root' })
 export class GalleryService {
+  private apiUrl = environment.apiUrl;
+
   private defaultPhotos: GalleryPhoto[] = [
     { id: '1', url: 'assets/images/tours/barroco-andino/barroco-005.jpeg', inCarousel: true, uploadedAt: '2024-01-01' },
     { id: '2', url: 'assets/images/tours/city-tour/city-tour-005.jpeg', inCarousel: true, uploadedAt: '2024-01-01' },
@@ -27,7 +31,7 @@ export class GalleryService {
 
   photosSignal = signal<GalleryPhoto[]>([]);
 
-  constructor() {
+  constructor(private http: HttpClient) {
     const saved = localStorage.getItem('maxis_gallery_photos');
     if (saved) {
       try {
@@ -52,9 +56,15 @@ export class GalleryService {
     return of(this.photosSignal());
   }
 
-  addPhotos(dataUrls: string[]): Observable<boolean> {
+  uploadFile(file: File): Observable<{ url: string }> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<{ url: string }>(`${this.apiUrl}/admin/gallery/upload`, formData);
+  }
+
+  addPhotos(urls: string[]): Observable<boolean> {
     const current = this.photosSignal();
-    const newPhotos: GalleryPhoto[] = dataUrls.map((url, i) => ({
+    const newPhotos: GalleryPhoto[] = urls.map((url, i) => ({
       id: Date.now().toString() + i,
       url,
       inCarousel: true,
@@ -81,6 +91,13 @@ export class GalleryService {
 
   deletePhoto(id: string): Observable<boolean> {
     const current = this.photosSignal();
+    const photo = current.find(p => p.id === id);
+    if (photo && photo.url.startsWith('/uploads/')) {
+      this.http.delete(`${this.apiUrl}/admin/gallery?url=${encodeURIComponent(photo.url)}`).subscribe({
+        error: () => {}
+      });
+    }
+
     const filtered = current.filter(p => p.id !== id);
     this.photosSignal.set(filtered);
     this.saveLocal();
@@ -88,6 +105,10 @@ export class GalleryService {
   }
 
   private saveLocal() {
-    localStorage.setItem('maxis_gallery_photos', JSON.stringify(this.photosSignal()));
+    try {
+      localStorage.setItem('maxis_gallery_photos', JSON.stringify(this.photosSignal()));
+    } catch (e) {
+      console.warn('LocalStorage limit reached for gallery photos:', e);
+    }
   }
 }

@@ -20,5 +20,12 @@ namespace MaxisTravel.API.DTOs
         public string InitPoint { get; set; } = string.Empty;
         public string SandboxInitPoint { get; set; } = string.Empty;
         public string PublicKey { get; set; } = string.Empty;
+        public string ExternalReference { get; set; } = string.Empty;
+    }
+
+    public class UpdateBookingStatusDto
+    {
+        public string Status { get; set; } = string.Empty;
     }
 }
+

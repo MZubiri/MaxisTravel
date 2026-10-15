@@ -11,6 +11,8 @@ import { TourManagementComponent } from './admin/tour-management/tour-management
 import { GalleryManagementComponent } from './admin/gallery-management/gallery-management.component';
 import { PaletteSelectorComponent } from './admin/settings/palette-selector/palette-selector.component';
 import { ChangePasswordComponent } from './admin/settings/change-password/change-password.component';
+import { MessagesComponent } from './admin/messages/messages.component';
+import { BookingsComponent } from './admin/bookings/bookings.component';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -27,7 +29,9 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
+      { path: 'reservas', component: BookingsComponent },
       { path: 'tours', component: TourManagementComponent },
+      { path: 'mensajes', component: MessagesComponent },
       { path: 'galeria', component: GalleryManagementComponent },
       { path: 'paleta', component: PaletteSelectorComponent },
       { path: 'password', component: ChangePasswordComponent }

@@ -12,9 +12,21 @@ using Microsoft.Extensions.Logging;
 
 namespace MaxisTravel.API.Services
 {
+    public class MpPaymentDetails
+    {
+        public string Id { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
+        public string StatusDetail { get; set; } = string.Empty;
+        public string PaymentMethodId { get; set; } = string.Empty;
+        public string ExternalReference { get; set; } = string.Empty;
+        public decimal TransactionAmount { get; set; }
+        public string PayerEmail { get; set; } = string.Empty;
+    }
+
     public interface IMercadoPagoService
     {
         Task<PaymentPreferenceResponseDto> CreatePreferenceAsync(PaymentRequestDto request, string originUrl);
+        Task<MpPaymentDetails?> GetPaymentDetailsAsync(string paymentId);
         string GetPublicKey();
     }
 
@@ -33,12 +45,12 @@ namespace MaxisTravel.API.Services
 
         public string GetPublicKey()
         {
-            return _configuration["MercadoPagoSettings:PublicKey"] ?? "APP_USR-34d6e223-2266-4ade-ab48-feb3064fa79b";
+            return _configuration["MercadoPagoSettings:PublicKey"] ?? "APP_USR-07d0d64a-6428-427f-b42a-e64a80b453da";
         }
 
         public async Task<PaymentPreferenceResponseDto> CreatePreferenceAsync(PaymentRequestDto request, string originUrl)
         {
-            var accessToken = _configuration["MercadoPagoSettings:AccessToken"] ?? "APP_USR-5352056971681212-090321-1118220f55a88fe40544f52301a25727-3656504962";
+            var accessToken = _configuration["MercadoPagoSettings:AccessToken"] ?? "APP_USR-532959237425442-101514-67ff9879f1cc784837bd2197ca2bf715-3739838376";
             var publicKey = GetPublicKey();
 
             // Enforce HTTPS base URL for Mercado Pago auto_return requirement
@@ -51,6 +63,7 @@ namespace MaxisTravel.API.Services
             var splitName = (request.BuyerName ?? "Pasajero Maxis").Trim().Split(' ', 2);
             var firstName = splitName[0];
             var lastName = splitName.Length > 1 ? splitName[1] : "Pasajero";
+            var extReference = $"MAXIS-{request.TourId}-{DateTime.UtcNow.Ticks}";
 
             var preferencePayload = new MpPreferencePayload
             {
@@ -85,7 +98,7 @@ namespace MaxisTravel.API.Services
                     Pending = $"{baseUrl}/tours?payment=pending"
                 },
                 AutoReturn = "approved",
-                ExternalReference = $"MAXIS-{request.TourId}-{DateTime.UtcNow.Ticks}",
+                ExternalReference = extReference,
                 StatementDescriptor = "MAXISTRAVEL"
             };
 
@@ -117,8 +130,56 @@ namespace MaxisTravel.API.Services
                 PreferenceId = prefId,
                 InitPoint = initPoint,
                 SandboxInitPoint = sandboxInitPoint,
-                PublicKey = publicKey
+                PublicKey = publicKey,
+                ExternalReference = extReference
             };
+        }
+
+        public async Task<MpPaymentDetails?> GetPaymentDetailsAsync(string paymentId)
+        {
+            try
+            {
+                var accessToken = _configuration["MercadoPagoSettings:AccessToken"] ?? "APP_USR-532959237425442-101514-67ff9879f1cc784837bd2197ca2bf715-3739838376";
+                var httpRequest = new HttpRequestMessage(HttpMethod.Get, $"https://api.mercadopago.com/v1/payments/{paymentId}");
+                httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                var response = await _httpClient.SendAsync(httpRequest);
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning($"Mercado Pago GetPaymentDetails ({response.StatusCode}): {await response.Content.ReadAsStringAsync()}");
+                    return null;
+                }
+
+                var responseString = await response.Content.ReadAsStringAsync();
+                using var doc = JsonDocument.Parse(responseString);
+                var root = doc.RootElement;
+
+                var details = new MpPaymentDetails
+                {
+                    Id = root.TryGetProperty("id", out var idProp) ? idProp.ToString() : paymentId,
+                    Status = root.TryGetProperty("status", out var sProp) ? sProp.GetString() ?? "" : "",
+                    StatusDetail = root.TryGetProperty("status_detail", out var sdProp) ? sdProp.GetString() ?? "" : "",
+                    PaymentMethodId = root.TryGetProperty("payment_method_id", out var pmProp) ? pmProp.GetString() ?? "" : "",
+                    ExternalReference = root.TryGetProperty("external_reference", out var erProp) ? erProp.GetString() ?? "" : ""
+                };
+
+                if (root.TryGetProperty("transaction_amount", out var taProp) && taProp.TryGetDecimal(out var amount))
+                {
+                    details.TransactionAmount = amount;
+                }
+
+                if (root.TryGetProperty("payer", out var payerProp) && payerProp.TryGetProperty("email", out var peProp))
+                {
+                    details.PayerEmail = peProp.GetString() ?? "";
+                }
+
+                return details;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error obteniendo detalles del pago {paymentId} desde Mercado Pago");
+                return null;
+            }
         }
     }
 

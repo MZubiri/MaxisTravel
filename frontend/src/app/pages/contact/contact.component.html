@@ -2,23 +2,48 @@
 <div class="container section-padding contact-layout">
   <div class="contact-form-container fade-in-up">
     <h2>Envíanos un mensaje</h2>
-    <form (ngSubmit)="sendWhatsApp()" #form="ngForm">
-      <div class="form-group"><label>Nombre</label><input type="text" [(ngModel)]="contact.name" name="name" required class="form-control"></div>
-      <div class="form-group"><label>Email</label><input type="email" [(ngModel)]="contact.email" name="email" required class="form-control"></div>
-      <div class="form-group"><label>Teléfono</label><input type="text" [(ngModel)]="contact.phone" name="phone" class="form-control"></div>
+    
+    <!-- Success Banner -->
+    <div *ngIf="isSubmitted" class="contact-success-card">
+      <div class="success-icon">✨</div>
+      <h3>¡Mensaje Enviado con Éxito!</h3>
+      <p>Hemos recibido tu consulta sobre <strong>{{ contact.tour || 'nuestros tours' }}</strong>. Un asesor de MaxisTravel te responderá a la brevedad posible.</p>
+      <div class="success-actions">
+        <button class="btn btn-whatsapp" (click)="sendWhatsApp()">
+          💬 Abrir chat directo en WhatsApp
+        </button>
+        <button class="btn btn-secondary" (click)="resetForm()">
+          ✉️ Enviar otra consulta
+        </button>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <form *ngIf="!isSubmitted" (ngSubmit)="submitForm()" #form="ngForm">
+      <div class="form-group"><label>Nombre Completo *</label><input type="text" [(ngModel)]="contact.name" name="name" required placeholder="Tu nombre" class="form-control"></div>
+      <div class="form-group"><label>Email *</label><input type="email" [(ngModel)]="contact.email" name="email" required placeholder="tu@correo.com" class="form-control"></div>
+      <div class="form-group"><label>Teléfono / WhatsApp *</label><input type="text" [(ngModel)]="contact.phone" name="phone" required placeholder="+51 920 698 122" class="form-control"></div>
       <div class="form-group">
         <label>Tour de interés</label>
         <select [(ngModel)]="contact.tour" name="tour" class="form-control">
           <option value="">Seleccione un tour...</option>
-          <option value="City Tour">City Tour Cusco</option>
+          <option value="City Tour Cusco">City Tour Cusco</option>
           <option value="Montaña 7 Colores">Montaña 7 Colores</option>
           <option value="Laguna Humantay">Laguna Humantay</option>
-          <option value="Valle Sagrado">Valle Sagrado</option>
-          <option value="Barroco Andino">Tour Barroco Andino</option>
+          <option value="Valle Sagrado">Valle Sagrado de los Incas</option>
+          <option value="Tour Barroco Andino">Tour Barroco Andino</option>
         </select>
       </div>
-      <div class="form-group"><label>Mensaje</label><textarea [(ngModel)]="contact.message" name="message" rows="4" required class="form-control"></textarea></div>
-      <button type="submit" class="btn btn-whatsapp w-100" [disabled]="!form.valid">Enviar por WhatsApp</button>
+      <div class="form-group"><label>Mensaje o Consulta *</label><textarea [(ngModel)]="contact.message" name="message" rows="4" required placeholder="¿En qué fechas planeas viajar? ¿Cuántas personas son?" class="form-control"></textarea></div>
+      
+      <div class="form-buttons-row">
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid || isSubmitting">
+          {{ isSubmitting ? 'Enviando...' : '📨 Enviar Mensaje' }}
+        </button>
+        <button type="button" class="btn btn-whatsapp" (click)="sendWhatsApp()" [disabled]="!contact.name || !contact.message">
+          💬 Chatear por WhatsApp
+        </button>
+      </div>
     </form>
   </div>
   <div class="contact-info-container fade-in-up" style="animation-delay: 0.2s">
