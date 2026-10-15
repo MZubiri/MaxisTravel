@@ -15,7 +15,8 @@ RUN npm install
 COPY . .
 
 # Set environment for production build
-RUN sed -i "s|http://localhost:5000|${API_URL}|g" src/environments/environment.prod.ts 2>/dev/null || true
+RUN sed -i "s|http://localhost:5000/api|${API_URL}|g" src/environments/environment.ts 2>/dev/null || true && \
+    sed -i "s|http://localhost:5000/api|${API_URL}|g" src/environments/environment.prod.ts 2>/dev/null || true
 
 # Build Angular app
 RUN npx ng build --configuration=production
