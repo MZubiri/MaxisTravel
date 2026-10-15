@@ -3,7 +3,7 @@ version: '3.8'
 services:
   mysql:
     image: mysql:8.0
-    container_name: maxis-db
+    # container_name omitted to avoid collisions
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-MaxisRoot2024!}
@@ -27,7 +27,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: maxis-api
+    # container_name omitted to avoid collisions with old standalone containers
     restart: unless-stopped
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
@@ -47,9 +47,12 @@ services:
       - coolify
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.maxis-api.rule=Host(`maxistravel.com`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.maxis-api.entrypoints=http,https"
-      - "traefik.http.services.maxis-api.loadbalancer.server.port=8080"
+      - "traefik.http.routers.maxis-api-prod.rule=(Host(`maxistravel.com`) || Host(`www.maxistravel.com`)) && PathPrefix(`/api`)"
+      - "traefik.http.routers.maxis-api-prod.entrypoints=http,https"
+      - "traefik.http.routers.maxis-api-prod.tls=true"
+      - "traefik.http.routers.maxis-api-prod.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.maxis-api-prod.priority=20000"
+      - "traefik.http.services.maxis-api-prod.loadbalancer.server.port=8080"
 
   frontend:
     build:
@@ -57,7 +60,7 @@ services:
       dockerfile: Dockerfile
       args:
         - API_URL=${API_URL:-/api}
-    container_name: maxis-web
+    # container_name omitted to avoid collisions with old standalone containers
     restart: unless-stopped
     depends_on:
       - backend
@@ -66,9 +69,12 @@ services:
       - coolify
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.maxis-web.rule=Host(`maxistravel.com`) || Host(`www.maxistravel.com`)"
-      - "traefik.http.routers.maxis-web.entrypoints=http,https"
-      - "traefik.http.services.maxis-web.loadbalancer.server.port=80"
+      - "traefik.http.routers.maxis-web-prod.rule=Host(`maxistravel.com`) || Host(`www.maxistravel.com`)"
+      - "traefik.http.routers.maxis-web-prod.entrypoints=http,https"
+      - "traefik.http.routers.maxis-web-prod.tls=true"
+      - "traefik.http.routers.maxis-web-prod.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.maxis-web-prod.priority=10000"
+      - "traefik.http.services.maxis-web-prod.loadbalancer.server.port=80"
 
 volumes:
   mysql_data:
