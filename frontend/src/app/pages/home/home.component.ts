@@ -16,8 +16,11 @@ import { Tour } from '../../core/models/tour.model';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  tours: Tour[] = [];
   galleryPhotos: string[] = [];
+
+  get tours(): Tour[] {
+    return this.tourService.toursSignal().filter(t => t.isPublished);
+  }
 
   constructor(
     private tourService: TourService,
@@ -25,7 +28,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.tourService.getTours().subscribe(t => this.tours = t);
+    this.tourService.getTours().subscribe();
     this.galleryService.getCarouselPhotos().subscribe(photos => this.galleryPhotos = photos);
   }
 }

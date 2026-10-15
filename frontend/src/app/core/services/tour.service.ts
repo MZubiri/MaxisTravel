@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { ApiService } from './api.service';
+import { I18nService } from './i18n.service';
 import { Tour } from '../models/tour.model';
 import { Observable, of, tap, catchError, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -109,7 +110,7 @@ export class TourService {
 
   toursSignal = signal<Tour[]>([]);
 
-  constructor(private api: ApiService) {
+  constructor(private api: ApiService, private i18n: I18nService) {
     const saved = localStorage.getItem('maxis_tours');
     if (saved) {
       try {
@@ -123,13 +124,18 @@ export class TourService {
     }
 
     this.refreshFromApi();
+
+    this.i18n.onLanguageChanged.subscribe(() => {
+      this.refreshFromApi();
+    });
   }
 
   private refreshFromApi() {
-    this.api.get<any[]>('/tours').pipe(
+    const lang = this.i18n.currentLang();
+    this.api.get<any[]>(`/tours?language=${lang}`).pipe(
       tap(dtoList => {
         if (dtoList && dtoList.length > 0) {
-          const mapped = dtoList.map(dto => this.mapDtoToTour(dto));
+          const mapped = dtoList.map(dto => this.mapDtoToTour(dto, lang));
           this.toursSignal.set(mapped);
           this.saveLocal();
         }
@@ -139,16 +145,15 @@ export class TourService {
   }
 
   getTours(): Observable<Tour[]> {
-    return this.api.get<any[]>('/tours').pipe(
+    const lang = this.i18n.currentLang();
+    return this.api.get<any[]>(`/tours?language=${lang}`).pipe(
       tap(dtoList => {
         if (dtoList && dtoList.length > 0) {
-          const mapped = dtoList.map(dto => this.mapDtoToTour(dto));
+          const mapped = dtoList.map(dto => this.mapDtoToTour(dto, lang));
           this.toursSignal.set(mapped);
           this.saveLocal();
         }
       }),
-      catchError(() => of(this.toursSignal().filter(t => t.isPublished))),
-      tap(() => {}),
       catchError(() => of(this.toursSignal().filter(t => t.isPublished)))
     );
   }
@@ -157,7 +162,7 @@ export class TourService {
     return this.api.get<any[]>('/admin/tours').pipe(
       tap(dtoList => {
         if (dtoList && dtoList.length > 0) {
-          const mapped = dtoList.map(dto => this.mapDtoToTour(dto));
+          const mapped = dtoList.map(dto => this.mapDtoToTour(dto, 'es'));
           this.toursSignal.set(mapped);
           this.saveLocal();
         }
@@ -167,10 +172,11 @@ export class TourService {
   }
 
   getTourBySlug(slug: string): Observable<Tour | undefined> {
-    return this.api.get<any>(`/tours/${slug}`).pipe(
+    const lang = this.i18n.currentLang();
+    return this.api.get<any>(`/tours/${slug}?language=${lang}`).pipe(
       tap(dto => {
         if (dto) {
-          const mapped = this.mapDtoToTour(dto);
+          const mapped = this.mapDtoToTour(dto, lang);
           const current = this.toursSignal();
           const idx = current.findIndex(t => t.slug === slug);
           if (idx !== -1) current[idx] = mapped;
@@ -313,8 +319,8 @@ export class TourService {
     return of(false);
   }
 
-  private mapDtoToTour(dto: any): Tour {
-    const trans = dto.translations?.[0] || {};
+  private mapDtoToTour(dto: any, lang = this.i18n.currentLang()): Tour {
+    const trans = dto.translations?.find((tr: any) => tr.languageCode === lang) || dto.translations?.[0] || {};
     const primaryImg = dto.images?.find((img: any) => img.isPrimary)?.imageUrl || dto.images?.[0]?.imageUrl;
     
     return {
@@ -334,12 +340,12 @@ export class TourService {
       modality: dto.modality,
       itinerary: (dto.itineraries || []).map((i: any) => ({
         time: i.timeSlot,
-        title: i.titleEs || i.titleEn || '',
-        description: i.descriptionEs || i.descriptionEn,
+        title: (lang === 'en' && i.titleEn) ? i.titleEn : (i.titleEs || i.title || ''),
+        description: (lang === 'en' && i.descriptionEn) ? i.descriptionEn : (i.descriptionEs || i.description || ''),
         icon: i.icon || '📍'
       })),
-      includes: (dto.inclusions || []).filter((i: any) => i.isIncluded).map((i: any) => i.textEs || i.textEn),
-      notIncludes: (dto.inclusions || []).filter((i: any) => !i.isIncluded).map((i: any) => i.textEs || i.textEn),
+      includes: (dto.inclusions || []).filter((i: any) => i.isIncluded).map((i: any) => (lang === 'en' && i.textEn) ? i.textEn : (i.textEs || i.text || '')),
+      notIncludes: (dto.inclusions || []).filter((i: any) => !i.isIncluded).map((i: any) => (lang === 'en' && i.textEn) ? i.textEn : (i.textEs || i.text || '')),
       whatToBring: trans.whatToBring ? trans.whatToBring.split('\n').filter(Boolean) : []
     };
   }

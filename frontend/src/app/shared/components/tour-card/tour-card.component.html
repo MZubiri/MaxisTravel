@@ -7,7 +7,7 @@
     </span>
     <span class="type-badge">{{ tour.type }}</span>
     <div class="card-price-tag">
-      <span class="price-from">Desde</span>
+      <span class="price-from">{{ 'tours.from' | translate }}</span>
       <span class="price-amount">US$ {{ tour.price }}</span>
     </div>
   </div>
@@ -28,12 +28,12 @@
 
     <div class="card-actions">
       <a [routerLink]="['/tours', tour.slug]" class="btn-card-details">
-        Ver Detalles ➔
+        {{ 'tours.details' | translate }}
       </a>
       <a [href]="'https://wa.me/51920698122?text=Hola%20MaxisTravel!%20Me%20interesa%20reservar%20el%20tour%20' + tour.name" 
          target="_blank" 
          class="btn-card-wa" 
-         title="Reservar por WhatsApp">
+         [title]="'tours.book_wa' | translate">
         💬
       </a>
     </div>

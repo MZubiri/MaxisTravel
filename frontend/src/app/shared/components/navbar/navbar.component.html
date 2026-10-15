@@ -18,7 +18,7 @@
       
       <div class="nav-actions-mobile">
         <button class="btn-lang-toggle" (click)="toggleLanguage()">
-          🌐 {{ i18n.currentLang() === 'es' ? 'EN' : 'ES' }}
+          🌐 <strong [style.text-decoration]="i18n.currentLang() === 'es' ? 'underline' : 'none'">ES</strong> / <strong [style.text-decoration]="i18n.currentLang() === 'en' ? 'underline' : 'none'">EN</strong>
         </button>
         <a href="https://wa.me/51920698122" target="_blank" class="btn-wa-nav">
           <svg class="wa-svg" viewBox="0 0 24 24" fill="currentColor">
@@ -30,9 +30,9 @@
     </div>
 
     <div class="nav-actions">
-      <button class="btn-lang-toggle" (click)="toggleLanguage()" [title]="'Cambiar idioma (actual: ' + i18n.currentLang().toUpperCase() + ')'">
+      <button class="btn-lang-toggle" (click)="toggleLanguage()" [title]="i18n.currentLang() === 'es' ? 'Switch to English' : 'Cambiar a Español'">
         <span class="globe-icon">🌐</span>
-        <span class="lang-code">{{ i18n.currentLang().toUpperCase() }}</span>
+        <span class="lang-code"><strong [style.text-decoration]="i18n.currentLang() === 'es' ? 'underline' : 'none'">ES</strong> / <strong [style.text-decoration]="i18n.currentLang() === 'en' ? 'underline' : 'none'">EN</strong></span>
       </button>
       <a href="https://wa.me/51920698122" target="_blank" class="btn-wa-nav">
         <svg class="wa-svg" viewBox="0 0 24 24" fill="currentColor">

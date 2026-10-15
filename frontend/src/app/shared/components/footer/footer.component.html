@@ -3,10 +3,10 @@
   <div class="footer-container">
     <div class="footer-col">
       <img src="/assets/images/logo.jpeg" onerror="this.onerror=null; this.src='/logo.jpeg'" alt="MaxisTravel" class="footer-logo">
-      <p>Descubre la magia del Imperio Inca con nosotros.</p>
+      <p>{{ 'footer.slogan' | translate }}</p>
       
       <!-- TripAdvisor Badge -->
-      <a href="https://www.tripadvisor.com" target="_blank" class="tripadvisor-badge" title="Ver opiniones en TripAdvisor">
+      <a href="https://www.tripadvisor.com" target="_blank" class="tripadvisor-badge" title="TripAdvisor">
         <svg class="ta-owl" viewBox="0 0 24 24" width="28" height="28" fill="#00AA6C">
           <circle cx="6.5" cy="12" r="3.5" fill="none" stroke="#00AA6C" stroke-width="2"/>
           <circle cx="17.5" cy="12" r="3.5" fill="none" stroke="#00AA6C" stroke-width="2"/>
@@ -17,31 +17,31 @@
         </svg>
         <div class="ta-info">
           <span class="ta-title">TripAdvisor</span>
-          <span class="ta-rating">5.0 ★★★★★ Excelente</span>
+          <span class="ta-rating">{{ 'footer.ta_rating' | translate }}</span>
         </div>
       </a>
     </div>
 
     <div class="footer-col">
-      <h3>Enlaces Rápidos</h3>
+      <h3>{{ 'footer.quick_links' | translate }}</h3>
       <ul>
-        <li><a routerLink="/">Inicio</a></li>
-        <li><a routerLink="/tours">Tours</a></li>
-        <li><a routerLink="/nosotros">Nosotros</a></li>
-        <li><a routerLink="/contacto">Contacto</a></li>
+        <li><a routerLink="/">{{ 'nav.home' | translate }}</a></li>
+        <li><a routerLink="/tours">{{ 'nav.tours' | translate }}</a></li>
+        <li><a routerLink="/nosotros">{{ 'nav.about' | translate }}</a></li>
+        <li><a routerLink="/contacto">{{ 'nav.contact' | translate }}</a></li>
       </ul>
     </div>
 
     <div class="footer-col">
-      <h3>Contacto</h3>
+      <h3>{{ 'footer.contact' | translate }}</h3>
       <p>📍 Cusco, Perú</p>
       <p>📱 +51 920 698 122</p>
       <p>✉️ info&#64;maxistravel.com</p>
     </div>
 
     <div class="footer-col">
-      <h3>Métodos de Pago</h3>
-      <p class="pay-sub">Aceptamos pagos seguros en línea:</p>
+      <h3>{{ 'footer.payment_methods' | translate }}</h3>
+      <p class="pay-sub">{{ 'footer.payment_sub' | translate }}</p>
       <div class="payment-badges">
         <span class="pay-badge mp-badge">💳 Mercado Pago</span>
         <span class="pay-badge">Yape</span>
@@ -52,6 +52,6 @@
   </div>
 
   <div class="footer-bottom">
-    <p>© 2024 MaxisTravel - Transporte & Turismo. Todos los derechos reservados.</p>
+    <p>{{ 'footer.rights' | translate }}</p>
   </div>
 </footer>

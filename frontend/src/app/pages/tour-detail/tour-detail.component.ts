@@ -5,11 +5,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TourService } from '../../core/services/tour.service';
 import { PaymentService, PaymentRequest } from '../../core/services/payment.service';
 import { Tour } from '../../core/models/tour.model';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { I18nService } from '../../core/services/i18n.service';
 
 @Component({
   selector: 'app-tour-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslatePipe],
   templateUrl: './tour-detail.component.html',
   styleUrls: ['./tour-detail.component.css']
 })
@@ -31,7 +33,8 @@ export class TourDetailComponent implements OnInit {
     private route: ActivatedRoute, 
     private tourService: TourService, 
     private paymentService: PaymentService,
-    private router: Router
+    private router: Router,
+    private i18n: I18nService
   ) {}
 
   ngOnInit() {
@@ -43,14 +46,25 @@ export class TourDetailComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const slug = params.get('slug');
       if (slug) {
-        this.tourService.getTourBySlug(slug).subscribe(t => {
-          if (t) {
-            this.tour = t;
-            this.updateWhatsappLink();
-          } else {
-            this.router.navigate(['/tours']);
-          }
-        });
+        this.loadTour(slug);
+      }
+    });
+
+    this.i18n.onLanguageChanged.subscribe(() => {
+      const slug = this.route.snapshot.paramMap.get('slug');
+      if (slug) {
+        this.loadTour(slug);
+      }
+    });
+  }
+
+  private loadTour(slug: string) {
+    this.tourService.getTourBySlug(slug).subscribe(t => {
+      if (t) {
+        this.tour = t;
+        this.updateWhatsappLink();
+      } else {
+        this.router.navigate(['/tours']);
       }
     });
   }
