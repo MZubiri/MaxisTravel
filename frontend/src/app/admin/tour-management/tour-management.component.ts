@@ -367,7 +367,9 @@ import { Tour, TourItinerary } from '../../core/models/tour.model';
       border-radius: 16px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
       border: 1px solid #E2E8F0;
-      overflow: hidden;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
     }
 
     .admin-table {
@@ -773,6 +775,24 @@ import { Tour, TourItinerary } from '../../core/models/tour.model';
       font-weight: 400;
     }
     .mt-2 { margin-top: 8px; }
+
+    @media (max-width: 768px) {
+      .admin-page-container { padding: 20px 16px; }
+      .admin-page-header { flex-direction: column; align-items: flex-start; gap: 14px; }
+      .filter-bar { flex-direction: column; align-items: stretch; gap: 10px; }
+      .search-input { max-width: 100%; width: 100%; }
+      .modal-card { width: 96%; max-height: 94vh; border-radius: 16px; }
+      .modal-body { padding: 18px 14px; }
+      .modal-header { padding: 16px 18px; }
+      .form-row { flex-direction: column; gap: 0; }
+      .col-4, .col-6, .col-8 { width: 100%; }
+      .section-box { padding: 16px 12px; }
+      .itinerary-row { flex-wrap: wrap; }
+      .step-time { width: 90px; }
+      .step-icon { width: 50px; }
+      .step-title { flex-grow: 1; min-width: 140px; }
+      .upload-dropzone { flex-direction: column; text-align: center; }
+    }
   `]
 })
 export class TourManagementComponent implements OnInit {

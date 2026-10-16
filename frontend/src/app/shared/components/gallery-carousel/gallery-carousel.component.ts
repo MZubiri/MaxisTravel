@@ -271,6 +271,20 @@ import { CommonModule } from '@angular/common';
       .prev-btn { left: 10px; }
       .next-btn { right: 10px; }
     }
+
+    @media (max-width: 500px) {
+      .carousel-viewport { height: 250px; border-radius: 16px; }
+      .slide-overlay { padding: 12px 14px; }
+      .slide-counter { font-size: 0.75rem; padding: 4px 10px; }
+      .expand-icon { font-size: 0.72rem; }
+      .nav-btn { width: 36px; height: 36px; font-size: 0.85rem; }
+      .prev-btn { left: 6px; }
+      .next-btn { right: 6px; }
+      .lightbox-btn.prev { left: 10px; width: 40px; height: 40px; }
+      .lightbox-btn.next { right: 10px; width: 40px; height: 40px; }
+      .lightbox-close { top: 15px; right: 15px; width: 38px; height: 38px; font-size: 1.4rem; }
+      .thumb-item { flex: 0 0 70px; height: 48px; border-radius: 8px; }
+    }
   `]
 })
 export class GalleryCarouselComponent implements OnInit, OnDestroy {

@@ -27,6 +27,10 @@ export class NavbarComponent {
     this.menuOpen = !this.menuOpen;
   }
 
+  closeMenu() {
+    this.menuOpen = false;
+  }
+
   toggleLanguage() {
     this.i18n.toggleLanguage();
   }

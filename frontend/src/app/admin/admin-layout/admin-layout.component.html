@@ -1,42 +1,46 @@
 <div class="admin-wrapper">
-  <aside class="admin-sidebar">
+  <!-- Mobile Backdrop -->
+  <div class="sidebar-backdrop" *ngIf="sidebarOpen" (click)="closeSidebar()"></div>
+
+  <aside class="admin-sidebar" [class.open]="sidebarOpen">
     <div class="admin-logo">
       <img src="/assets/images/logo.jpeg" onerror="this.onerror=null; this.src='/logo.jpeg'" alt="MaxisTravel" class="sidebar-logo-img">
       <div class="sidebar-logo-text">
         <span class="brand-title">MaxisTravel</span>
         <span class="brand-sub">Panel de Control</span>
       </div>
+      <button class="btn-sidebar-close" (click)="closeSidebar()" aria-label="Cerrar menú">✕</button>
     </div>
 
     <nav class="admin-nav">
-      <a routerLink="/admin/dashboard" routerLinkActive="active">
+      <a routerLink="/admin/dashboard" routerLinkActive="active" (click)="closeSidebar()">
         <span class="nav-icon">📊</span> Dashboard
       </a>
-      <a routerLink="/admin/reservas" routerLinkActive="active">
+      <a routerLink="/admin/reservas" routerLinkActive="active" (click)="closeSidebar()">
         <span class="nav-icon">💳</span> Reservas & Pagos
       </a>
-      <a routerLink="/admin/tours" routerLinkActive="active">
+      <a routerLink="/admin/tours" routerLinkActive="active" (click)="closeSidebar()">
         <span class="nav-icon">🗺️</span> Gestión de Tours
       </a>
-      <a routerLink="/admin/mensajes" routerLinkActive="active" class="nav-with-badge">
+      <a routerLink="/admin/mensajes" routerLinkActive="active" class="nav-with-badge" (click)="closeSidebar()">
         <span class="nav-icon">📬</span> Mensajes & Consultas
         <span class="sidebar-badge" *ngIf="contactService.unreadCount() > 0">
           {{ contactService.unreadCount() }}
         </span>
       </a>
-      <a routerLink="/admin/galeria" routerLinkActive="active">
+      <a routerLink="/admin/galeria" routerLinkActive="active" (click)="closeSidebar()">
         <span class="nav-icon">🖼️</span> Galería & Carrusel
       </a>
-      <a routerLink="/admin/paleta" routerLinkActive="active">
+      <a routerLink="/admin/paleta" routerLinkActive="active" (click)="closeSidebar()">
         <span class="nav-icon">🎨</span> Paleta de Colores
       </a>
-      <a routerLink="/admin/password" routerLinkActive="active">
+      <a routerLink="/admin/password" routerLinkActive="active" (click)="closeSidebar()">
         <span class="nav-icon">🔑</span> Cambiar Contraseña
       </a>
     </nav>
 
     <div class="sidebar-footer">
-      <a routerLink="/" target="_blank" class="btn-view-site">
+      <a routerLink="/" target="_blank" class="btn-view-site" (click)="closeSidebar()">
         🌐 Ver Sitio Público
       </a>
     </div>
@@ -44,11 +48,17 @@
 
   <div class="admin-main">
     <header class="admin-topbar">
-      <div class="user-greeting">
-        <span>👋 Hola, <strong>{{ authService.currentUser()?.fullName || 'Administrador' }}</strong></span>
+      <div class="topbar-left">
+        <button class="admin-menu-btn" (click)="toggleSidebar()" aria-label="Menú de navegación">
+          ☰
+        </button>
+        <div class="user-greeting">
+          <span>👋 Hola, <strong>{{ authService.currentUser()?.fullName || 'Administrador' }}</strong></span>
+        </div>
       </div>
       <button (click)="logout()" class="btn-logout">
-        🚪 Cerrar Sesión
+        <span class="logout-text">🚪 Cerrar Sesión</span>
+        <span class="logout-icon-only">🚪</span>
       </button>
     </header>
 

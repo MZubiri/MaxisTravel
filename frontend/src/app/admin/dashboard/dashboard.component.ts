@@ -221,6 +221,13 @@ import { PaymentService } from '../../core/services/payment.service';
       font-size: 0.82rem;
       line-height: 1.3;
     }
+
+    @media (max-width: 768px) {
+      .dashboard-container { padding: 20px 16px; }
+      .dash-header h1 { font-size: 1.5rem; }
+      .stat-grid { grid-template-columns: 1fr; gap: 14px; margin-bottom: 24px; }
+      .action-cards-grid { grid-template-columns: 1fr; gap: 12px; }
+    }
   `]
 })
 export class DashboardComponent implements OnInit {

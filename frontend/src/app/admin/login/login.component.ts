@@ -190,6 +190,13 @@ import { AuthService } from '../../core/services/auth.service';
     .login-footer strong {
       color: #C26148;
     }
+
+    @media (max-width: 480px) {
+      .login-container { padding: 16px; }
+      .login-card { padding: 28px 20px; border-radius: 20px; }
+      .login-logo { width: 75px; height: 75px; }
+      .logo-header h2 { font-size: 1.5rem; }
+    }
   `]
 })
 export class LoginComponent {

@@ -145,6 +145,11 @@ import { AuthService } from '../../../core/services/auth.service';
       width: 100%;
       box-shadow: 0 4px 14px rgba(201, 127, 108, 0.3);
     }
+
+    @media (max-width: 600px) {
+      .admin-page-container { padding: 20px 16px; }
+      .password-card { padding: 24px 18px; width: 100%; }
+    }
   `]
 })
 export class ChangePasswordComponent {

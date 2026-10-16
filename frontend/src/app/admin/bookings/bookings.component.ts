@@ -532,6 +532,17 @@ import { PaymentService, Booking } from '../../core/services/payment.service';
       animation: spin 0.8s linear infinite;
       margin: 0 auto 16px;
     }
+
+    @media (max-width: 768px) {
+      .bookings-container { padding: 20px 16px; }
+      .page-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .metrics-grid { grid-template-columns: 1fr; gap: 12px; margin-bottom: 20px; }
+      .filter-bar { flex-direction: column; align-items: stretch; gap: 12px; }
+      .filter-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; padding: 4px; }
+      .search-box { width: 100%; min-width: 0; }
+      .search-input { width: 100%; }
+      .actions-group { flex-direction: column; align-items: flex-start; }
+    }
   `]
 })
 export class BookingsComponent implements OnInit {

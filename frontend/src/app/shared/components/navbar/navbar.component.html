@@ -10,14 +10,22 @@
       </div>
     </a>
     
+    <!-- Mobile Backdrop -->
+    <div class="nav-backdrop" *ngIf="menuOpen" (click)="closeMenu()"></div>
+
     <div class="nav-links" [class.active]="menuOpen">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="toggleMenu()">{{ 'nav.home' | translate }}</a>
-      <a routerLink="/tours" routerLinkActive="active" (click)="toggleMenu()">{{ 'nav.tours' | translate }}</a>
-      <a routerLink="/nosotros" routerLinkActive="active" (click)="toggleMenu()">{{ 'nav.about' | translate }}</a>
-      <a routerLink="/contacto" routerLinkActive="active" (click)="toggleMenu()">{{ 'nav.contact' | translate }}</a>
+      <div class="nav-mobile-header">
+        <span class="nav-mobile-title">Menú</span>
+        <button class="nav-mobile-close" (click)="closeMenu()" aria-label="Cerrar menú">✕</button>
+      </div>
+
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMenu()">{{ 'nav.home' | translate }}</a>
+      <a routerLink="/tours" routerLinkActive="active" (click)="closeMenu()">{{ 'nav.tours' | translate }}</a>
+      <a routerLink="/nosotros" routerLinkActive="active" (click)="closeMenu()">{{ 'nav.about' | translate }}</a>
+      <a routerLink="/contacto" routerLinkActive="active" (click)="closeMenu()">{{ 'nav.contact' | translate }}</a>
       
       <div class="nav-actions-mobile">
-        <button class="btn-lang-toggle" (click)="toggleLanguage()">
+        <button class="btn-lang-toggle mobile-lang" (click)="toggleLanguage()">
           🌐 <strong [style.text-decoration]="i18n.currentLang() === 'es' ? 'underline' : 'none'">ES</strong> / <strong [style.text-decoration]="i18n.currentLang() === 'en' ? 'underline' : 'none'">EN</strong>
         </button>
         <a href="https://wa.me/51948735614" target="_blank" class="btn-wa-nav">

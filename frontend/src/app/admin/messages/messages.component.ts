@@ -268,7 +268,9 @@ import { ContactService, ContactMessage } from '../../core/services/contact.serv
       border-radius: 16px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.04);
       border: 1px solid #E2E8F0;
-      overflow: hidden;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
     }
     .empty-state {
       padding: 60px 20px;
@@ -445,6 +447,18 @@ import { ContactService, ContactMessage } from '../../core/services/contact.serv
     .btn-wa-reply { background: #25D366; color: white; border: none; }
     .btn-secondary { background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1; }
     .btn-primary { background: #1A1A2E; color: white; border: none; }
+
+    @media (max-width: 768px) {
+      .admin-page-container { padding: 20px 16px; }
+      .admin-page-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .filter-bar { flex-direction: column; align-items: stretch; gap: 10px; }
+      .tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; }
+      .search-input { min-width: 0; width: 100%; }
+      .modal-card { padding: 20px 16px; width: 95%; }
+      .meta-row { grid-template-columns: 1fr; gap: 8px; }
+      .modal-footer { flex-direction: column; }
+      .modal-footer .btn { width: 100%; text-align: center; }
+    }
   `]
 })
 export class MessagesComponent implements OnInit {

@@ -140,3 +140,13 @@ body {
   box-shadow: var(--shadow-md);
   transform: translateY(-4px);
 }
+
+/* Global Mobile Utilities */
+@media (max-width: 640px) {
+  .section-padding {
+    padding: 2.5rem 0;
+  }
+  .container {
+    padding: 0 16px;
+  }
+}

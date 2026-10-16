@@ -221,6 +221,18 @@
   background: var(--color-dark);
 }
 
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1040;
+}
+
+.nav-mobile-header {
+  display: none;
+}
+
 .nav-actions-mobile {
   display: none;
 }
@@ -228,18 +240,85 @@
 @media (max-width: 900px) {
   .hamburger { display: block; }
   .nav-actions { display: none; }
-  .nav-actions-mobile { display: block; margin-top: 30px; }
+  .nav-actions-mobile { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px;
+    width: 100%;
+    margin-top: 24px; 
+    padding-top: 20px;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  .btn-lang-toggle.mobile-lang {
+    color: var(--color-dark);
+    background: #F1F5F9;
+    border: 1px solid #CBD5E1;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .nav-mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  .nav-mobile-title {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--color-dark);
+  }
+
+  .nav-mobile-close {
+    background: #F1F5F9;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .nav-links {
     position: fixed;
     top: 0; right: -100%;
-    width: 280px;
+    width: 290px;
+    max-width: 85vw;
     height: 100vh;
     background: #ffffff;
     flex-direction: column;
-    padding-top: 100px;
-    box-shadow: -10px 0 30px rgba(0,0,0,0.15);
-    transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    align-items: flex-start;
+    padding: 24px 20px;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.2);
+    transition: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1050;
+    overflow-y: auto;
   }
   .nav-links.active { right: 0; }
-  .nav-links a { color: var(--color-dark); font-size: 1.1rem; }
+  .nav-links a { 
+    color: var(--color-dark); 
+    font-size: 1.05rem; 
+    width: 100%;
+    padding: 12px 0;
+    border-bottom: 1px solid #F1F5F9;
+  }
+}
+
+@media (max-width: 420px) {
+  .logo { gap: 8px; }
+  .logo-badge img { height: 36px; max-width: 75px; }
+  .brand-name { font-size: 1.15rem; }
+  .brand-sub { font-size: 0.65rem; }
+  .nav-container { padding: 0 12px; }
 }

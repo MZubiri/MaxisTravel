@@ -226,6 +226,13 @@ import { GalleryService, GalleryPhoto } from '../../core/services/gallery.servic
       border-radius: 16px;
       color: #64748B;
     }
+
+    @media (max-width: 768px) {
+      .admin-page-container { padding: 20px 16px; }
+      .admin-page-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .stats-bar { flex-direction: column; align-items: flex-start; gap: 8px; padding: 14px 16px; }
+      .gallery-grid { grid-template-columns: 1fr; gap: 16px; }
+    }
   `]
 })
 export class GalleryManagementComponent implements OnInit {

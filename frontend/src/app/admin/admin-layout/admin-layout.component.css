@@ -3,6 +3,7 @@
   min-height: 100vh;
   background: #F8FAFC;
   font-family: 'DM Sans', sans-serif;
+  position: relative;
 }
 
 .admin-sidebar {
@@ -12,6 +13,8 @@
   display: flex;
   flex-direction: column;
   border-right: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .admin-logo {
@@ -20,6 +23,22 @@
   align-items: center;
   gap: 12px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+}
+
+.btn-sidebar-close {
+  display: none;
+  margin-left: auto;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
 }
 
 .sidebar-logo-img {
@@ -138,6 +157,34 @@
   align-items: center;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   border-bottom: 1px solid #E2E8F0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-menu-btn {
+  display: none;
+  background: #F1F5F9;
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
+  width: 38px;
+  height: 38px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  color: #1E293B;
+  transition: 0.2s;
+}
+
+.admin-menu-btn:hover {
+  background: #E2E8F0;
 }
 
 .user-greeting {
@@ -159,13 +206,79 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .btn-logout:hover {
   background: #FEE2E2;
 }
 
+.logout-icon-only {
+  display: none;
+}
+
 .admin-content {
   flex: 1;
   overflow-y: auto;
+}
+
+.sidebar-backdrop {
+  display: none;
+}
+
+/* Mobile & Tablet Off-Canvas Drawer */
+@media (max-width: 900px) {
+  .admin-menu-btn {
+    display: inline-flex;
+  }
+
+  .btn-sidebar-close {
+    display: inline-flex;
+  }
+
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1999;
+  }
+
+  .admin-sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: -290px;
+    width: 280px;
+    z-index: 2000;
+    box-shadow: 10px 0 35px rgba(0, 0, 0, 0.35);
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(290px);
+  }
+
+  .admin-topbar {
+    padding: 12px 16px;
+  }
+
+  .user-greeting {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .logout-text {
+    display: none;
+  }
+  .logout-icon-only {
+    display: inline-block;
+    font-size: 1.1rem;
+  }
+  .btn-logout {
+    padding: 6px 10px;
+  }
 }

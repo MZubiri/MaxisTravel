@@ -37,6 +37,18 @@ import { Component } from '@angular/core';
       width: 32px;
       height: 32px;
     }
+    @media (max-width: 600px) {
+      .wa-float {
+        bottom: 20px;
+        right: 20px;
+        width: 52px;
+        height: 52px;
+      }
+      .wa-float-icon {
+        width: 28px;
+        height: 28px;
+      }
+    }
   `]
 })
 export class WhatsappButtonComponent {}

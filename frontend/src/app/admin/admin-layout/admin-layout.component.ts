@@ -12,6 +12,8 @@ import { ContactService } from '../../core/services/contact.service';
   styleUrls: ['./admin-layout.component.css']
 })
 export class AdminLayoutComponent implements OnInit {
+  sidebarOpen = false;
+
   constructor(
     public authService: AuthService,
     public contactService: ContactService
@@ -19,6 +21,14 @@ export class AdminLayoutComponent implements OnInit {
 
   ngOnInit() {
     this.contactService.getAdminMessages().subscribe();
+  }
+
+  toggleSidebar() {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
+
+  closeSidebar() {
+    this.sidebarOpen = false;
   }
 
   logout() {

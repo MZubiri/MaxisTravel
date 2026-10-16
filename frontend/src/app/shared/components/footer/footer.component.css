@@ -125,3 +125,17 @@
   background: #009EE3;
   border-color: #0087C4;
 }
+
+@media (max-width: 640px) {
+  .footer {
+    padding-top: var(--spacing-lg);
+  }
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .footer-bottom {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md) 16px;
+  }
+}
