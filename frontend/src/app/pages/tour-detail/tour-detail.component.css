@@ -1,11 +1,74 @@
-.tour-hero { position: relative; min-height: 50vh; height: auto; }
-.tour-hero-image { width: 100%; min-height: 50vh; position: relative; }
-.tour-hero-image img { width: 100%; height: 100%; min-height: 50vh; object-fit: cover; }
-.tour-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.25) 100%); display: flex; align-items: flex-end; padding: 100px var(--spacing-md) var(--spacing-lg) var(--spacing-md); }
-.tour-hero-content { max-width: 1200px; margin: 0 auto; width: 100%; color: white; }
-.tour-badge { background: var(--color-primary); padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; display: inline-block; }
-.tour-hero-content h1 { font-size: clamp(1.8rem, 5vw, 3rem); margin: 12px 0; line-height: 1.2; text-shadow: 0 2px 10px rgba(0,0,0,0.7); }
-.tour-meta-badges { display: flex; flex-wrap: wrap; gap: 10px; font-size: clamp(0.85rem, 2.5vw, 1.05rem); }
+.tour-hero {
+  position: relative;
+  height: 380px;
+  max-height: 44vh;
+  overflow: hidden;
+}
+
+.tour-hero-image {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.tour-hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+}
+
+.tour-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(15, 12, 10, 0.92) 0%, rgba(15, 12, 10, 0.45) 50%, rgba(0, 0, 0, 0.25) 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 80px var(--spacing-md) 28px var(--spacing-md);
+}
+
+.tour-hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  color: white;
+}
+
+.tour-badge {
+  background: var(--color-primary);
+  color: #FFFFFF;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  display: inline-block;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.tour-hero-content h1 {
+  font-size: clamp(1.6rem, 3.8vw, 2.4rem);
+  margin: 8px 0 10px 0;
+  line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+  font-weight: 800;
+}
+
+.tour-meta-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.92rem;
+}
+
+.tour-meta-badges span {
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
 
 .tour-detail-layout { display: grid; grid-template-columns: 2fr 1fr; gap: var(--spacing-xl); }
 .tour-content section { margin-bottom: var(--spacing-xl); }
@@ -294,12 +357,29 @@
 }
 
 @media (max-width: 600px) {
-  .tour-hero-overlay { padding: 85px 16px 24px 16px; }
-  .tour-detail-layout { gap: 24px; padding-top: 24px; }
-  .sidebar-card { padding: 20px 16px; }
-  .price-amount { font-size: 2.1rem; }
+  .tour-hero {
+    height: 260px;
+    max-height: 38vh;
+  }
+  .tour-hero-overlay {
+    padding: 60px 16px 18px 16px;
+  }
+  .tour-hero-content h1 {
+    font-size: 1.35rem;
+    margin: 6px 0 8px 0;
+  }
+  .tour-meta-badges {
+    font-size: 0.82rem;
+    gap: 6px;
+  }
+  .tour-meta-badges span {
+    padding: 3px 8px;
+  }
+  .tour-detail-layout { gap: 20px; padding-top: 20px; }
+  .sidebar-card { padding: 18px 14px; }
+  .price-amount { font-size: 2rem; }
   .bring-item { font-size: 0.85rem; padding: 6px 12px; }
-  .timeline { padding-left: 24px; }
-  .timeline-dot { left: -19px; }
+  .timeline { padding-left: 20px; }
+  .timeline-dot { left: -16px; }
   .timeline-content { padding: 12px; }
 }
