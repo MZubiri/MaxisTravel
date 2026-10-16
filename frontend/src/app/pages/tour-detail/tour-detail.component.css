@@ -22,7 +22,7 @@
 .tour-hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(15, 12, 10, 0.92) 0%, rgba(15, 12, 10, 0.45) 50%, rgba(0, 0, 0, 0.25) 100%);
+  background: linear-gradient(to top, rgba(15, 12, 10, 0.96) 0%, rgba(15, 12, 10, 0.65) 45%, rgba(15, 12, 10, 0.3) 75%, rgba(0, 0, 0, 0.15) 100%);
   display: flex;
   align-items: flex-end;
   padding: 80px var(--spacing-md) 28px var(--spacing-md);
@@ -32,27 +32,30 @@
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
-  color: white;
+  color: #FFFFFF !important;
 }
 
 .tour-badge {
   background: var(--color-primary);
-  color: #FFFFFF;
-  padding: 4px 12px;
+  color: #FFFFFF !important;
+  padding: 5px 14px;
   border-radius: 20px;
-  font-weight: 700;
-  font-size: 0.8rem;
+  font-weight: 800;
+  font-size: 0.82rem;
   display: inline-block;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
 }
 
 .tour-hero-content h1 {
-  font-size: clamp(1.6rem, 3.8vw, 2.4rem);
-  margin: 8px 0 10px 0;
+  color: #FFFFFF !important;
+  font-size: clamp(1.65rem, 3.8vw, 2.5rem);
+  margin: 10px 0 12px 0;
   line-height: 1.2;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.95), 0 4px 18px rgba(0, 0, 0, 0.85);
   font-weight: 800;
+  letter-spacing: -0.01em;
 }
 
 .tour-meta-badges {
@@ -60,14 +63,18 @@
   flex-wrap: wrap;
   gap: 8px;
   font-size: 0.92rem;
+  color: #FFFFFF !important;
 }
 
 .tour-meta-badges span {
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(4px);
-  padding: 4px 10px;
+  color: #FFFFFF !important;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  padding: 5px 12px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 .tour-detail-layout { display: grid; grid-template-columns: 2fr 1fr; gap: var(--spacing-xl); }
@@ -365,14 +372,18 @@
     padding: 60px 16px 18px 16px;
   }
   .tour-hero-content h1 {
+    color: #FFFFFF !important;
     font-size: 1.35rem;
     margin: 6px 0 8px 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.95), 0 3px 12px rgba(0, 0, 0, 0.85);
   }
   .tour-meta-badges {
     font-size: 0.82rem;
     gap: 6px;
+    color: #FFFFFF !important;
   }
   .tour-meta-badges span {
+    color: #FFFFFF !important;
     padding: 3px 8px;
   }
   .tour-detail-layout { gap: 20px; padding-top: 20px; }
