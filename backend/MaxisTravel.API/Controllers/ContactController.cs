@@ -24,7 +24,7 @@ namespace MaxisTravel.API.Controllers
             var msg = await _contactService.CreateMessageAsync(dto);
             // Asynchronously send email notification
             _ = Task.Run(() => _emailService.SendContactNotificationAsync(msg));
-            return Ok();
+            return Ok(new { success = true, id = msg.Id });
         }
 
         [Authorize(Roles = "Admin")]
